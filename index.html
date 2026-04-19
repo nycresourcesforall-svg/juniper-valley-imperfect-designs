@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juniper Valley Imperfect Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --clay:    #B5A28A;
+  --sand:    #D6CAB5;
+  --linen:   #EDE8DE;
+  --warm-white: #F7F4EF;
+  --bark:    #6B5B47;
+  --ink:     #1C1814;
+  --teal:    #3D6166;
+  --rust:    #A0522D;
+  --slate:   #8FA3A8;
+  --olive:   #6B6B3A;
+  --juniper: #2E4A3E;
+  --cream:   #F2EDE3;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--warm-white);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* GRAIN OVERLAY */
+body::after{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.5;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.4rem 3rem;
+  background:rgba(247,244,239,0.85);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(181,162,138,0.2);
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:.95rem;letter-spacing:.04em;
+  color:var(--ink);text-decoration:none;font-style:italic;
+}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--bark);text-decoration:none;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--ink);}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero{
+  min-height:100vh;display:grid;
+  grid-template-columns:1fr 1fr;
+  position:relative;overflow:hidden;
+}
+
+/* Left */
+.hero-left{
+  padding:9rem 3.5rem 4rem 3rem;
+  display:flex;flex-direction:column;justify-content:center;
+  background:var(--warm-white);
+  position:relative;z-index:2;
+}
+.hero-eyebrow{
+  font-family:'DM Mono',monospace;font-size:.62rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--clay);margin-bottom:1.8rem;
+  display:flex;align-items:center;gap:.8rem;
+}
+.hero-eyebrow::before{content:'';width:2.5rem;height:1px;background:var(--clay);}
+.hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(3rem,5.5vw,5.2rem);
+  line-height:1.05;font-weight:900;
+  color:var(--ink);margin-bottom:.6rem;
+  letter-spacing:-.01em;
+}
+.hero-title .italic{font-style:italic;color:var(--bark);}
+.hero-title .thin{font-weight:400;font-style:italic;font-size:.72em;display:block;color:var(--clay);}
+.hero-sub{
+  font-size:.95rem;line-height:1.75;font-weight:300;
+  color:var(--bark);max-width:26rem;
+  margin-bottom:3rem;margin-top:1.2rem;
+}
+.hero-ctas{display:flex;gap:1.2rem;align-items:center;flex-wrap:wrap;}
+.btn-primary{
+  background:var(--ink);color:var(--warm-white);
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:.95rem 2rem;text-decoration:none;
+  border:none;cursor:pointer;
+  transition:background .25s,transform .15s;
+  display:inline-block;
+}
+.btn-primary:hover{background:var(--teal);transform:translateY(-2px);}
+.btn-ghost{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--bark);text-decoration:none;opacity:.7;
+  display:flex;align-items:center;gap:.5rem;
+  transition:opacity .2s,gap .2s;
+}
+.btn-ghost::after{content:'→';}
+.btn-ghost:hover{opacity:1;gap:.8rem;}
+
+/* Right — grid of 6 texture cards */
+.hero-right{
+  position:relative;overflow:hidden;
+  background:var(--sand);
+  display:grid;grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(3,1fr);
+  gap:2px;padding:2px;
+}
+.hcard{
+  position:relative;overflow:hidden;
+  background:var(--linen);
+  transition:transform .4s cubic-bezier(.23,1,.32,1);
+}
+.hcard:hover{transform:scale(1.03);z-index:2;}
+.hcard::before{content:'';position:absolute;inset:0;transition:opacity .3s;}
+.hcard-label{
+  position:absolute;bottom:1rem;left:1rem;z-index:2;
+  font-family:'Playfair Display',serif;
+  font-size:.85rem;font-style:italic;font-weight:700;
+  color:var(--ink);
+  text-shadow:0 1px 8px rgba(247,244,239,.7);
+}
+.hcard-num{
+  position:absolute;top:.8rem;left:.9rem;z-index:2;
+  font-family:'DM Mono',monospace;font-size:.5rem;
+  letter-spacing:.14em;color:var(--bark);opacity:.6;
+}
+
+/* Texture card backgrounds */
+.hc1{background:#7B9BA0;}
+.hc1::before{background:radial-gradient(ellipse at 30% 60%,rgba(255,255,240,.3),transparent 60%);}
+.hc1 .hcard-label{color:#F7F4EF;}
+
+.hc2{background:#C4A882;}
+.hc2::before{
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0px,rgba(255,255,255,.06) 1px,transparent 1px,transparent 10px);
+}
+
+.hc3{
+  background:#8B7355;grid-row:span 2;
+}
+.hc3::before{
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0,rgba(255,255,255,.04) 1px,transparent 1px,transparent 6px),
+    repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0,rgba(0,0,0,.05) 1px,transparent 1px,transparent 8px);
+}
+.hc3 .hcard-label{color:#F7F4EF;font-size:1rem;}
+
+.hc4{background:#D4C5A9;}
+.hc4::before{background:radial-gradient(circle at 70% 30%,rgba(107,91,71,.2),transparent 50%);}
+
+.hc5{background:#3D6166;}
+.hc5 .hcard-label{color:#D6CAB5;}
+.hc5::before{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='8' fill='none' stroke='rgba(214,202,181,.15)' stroke-width='1'/%3E%3C/svg%3E") repeat;}
+
+.hc6{background:#6B5B47;grid-column:span 2;}
+.hc6::before{background:repeating-linear-gradient(45deg,rgba(255,255,255,.03) 0,rgba(255,255,255,.03) 2px,transparent 2px,transparent 18px);}
+.hc6 .hcard-label{color:#D6CAB5;font-size:1.1rem;}
+
+/* Hover overlay */
+.hcard-hover{
+  position:absolute;inset:0;
+  background:rgba(28,24,20,.85);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;z-index:3;
+}
+.hcard:hover .hcard-hover{opacity:1;}
+.hcard-hover span{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sand);
+}
+
+/* Vertical rule divider */
+.hero::after{
+  content:'';position:absolute;left:50%;top:0;bottom:0;
+  width:1px;background:rgba(181,162,138,.25);z-index:3;
+}
+
+/* ═══════════════════════════════
+   TICKER
+═══════════════════════════════ */
+.ticker{
+  background:var(--bark);
+  padding:.9rem 0;overflow:hidden;
+  position:relative;
+}
+.ticker-track{
+  display:flex;width:max-content;
+  animation:ticker 22s linear infinite;
+}
+.ticker-item{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:0 2.5rem;white-space:nowrap;
+  color:var(--sand);opacity:.75;
+}
+.ticker-sep{color:var(--clay);opacity:1;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ═══════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════ */
+.section-eyebrow{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--clay);margin-bottom:1rem;
+  display:flex;align-items:center;gap:.7rem;
+}
+.section-eyebrow::before{content:'';width:1.8rem;height:1px;background:var(--clay);}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,4.5vw,4.2rem);
+  line-height:1;font-weight:900;
+  letter-spacing:-.01em;
+}
+.section-title em{font-style:italic;color:var(--bark);}
+
+/* ═══════════════════════════════
+   TRENDS SECTION
+═══════════════════════════════ */
+.trends-section{
+  padding:8rem 3rem;
+  background:var(--linen);
+}
+.trends-header{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;margin-bottom:5rem;align-items:end;
+}
+.trends-desc{
+  font-size:.92rem;line-height:1.75;font-weight:300;
+  color:var(--bark);max-width:30rem;align-self:end;
+}
+
+.trends-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:1.2rem;
+}
+.tcard{
+  background:var(--warm-white);
+  border-radius:4px;overflow:hidden;
+  display:flex;flex-direction:column;
+  box-shadow:0 2px 12px rgba(107,91,71,.08);
+  transition:transform .35s cubic-bezier(.23,1,.32,1),box-shadow .35s;
+}
+.tcard:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(107,91,71,.15);}
+
+.tv{height:120px;position:relative;overflow:hidden;flex-shrink:0;}
+
+/* Reality Warp */
+.tv-rw{background:#0e0b1a;}
+.tv-rw::before{content:'';position:absolute;width:130px;height:130px;background:radial-gradient(circle,#c084fc,#818cf8,transparent 70%);top:-20px;left:-20px;border-radius:60% 40% 70% 30%/50% 60% 40% 50%;animation:warp 5s ease-in-out infinite alternate;opacity:.9;}
+.tv-rw::after{content:'';position:absolute;width:100px;height:100px;background:radial-gradient(circle,#f472b6,#fb923c,transparent 70%);bottom:-10px;right:-10px;border-radius:40% 60% 30% 70%/60% 40% 60% 40%;animation:warp 4s ease-in-out infinite alternate-reverse;opacity:.85;}
+@keyframes warp{from{border-radius:60% 40% 70% 30%/50% 60% 40% 50%;transform:rotate(0deg) scale(1);}to{border-radius:30% 70% 40% 60%/60% 30% 70% 40%;transform:rotate(20deg) scale(1.1);}}
+
+/* Prompt Playground */
+.tv-pp{background:#0f1117;display:flex;align-items:center;justify-content:center;}
+.tv-pp::before{content:'> generate_\A> imagine_\A> render_';white-space:pre;font-family:'DM Mono',monospace;font-size:.58rem;color:#22c55e;letter-spacing:.05em;line-height:1.9;text-shadow:0 0 8px #22c55e;animation:blink 1.1s step-end infinite;}
+@keyframes blink{50%{opacity:.5;}}
+
+/* Explorecore */
+.tv-ex{background:#2d4a3e;overflow:hidden;}
+.tv-ex::before{content:'';position:absolute;inset:-20px;background-image:repeating-radial-gradient(ellipse at 50% 50%,transparent,transparent 12px,rgba(163,200,150,.2) 13px,transparent 14px);animation:drift 9s linear infinite;}
+.tv-ex::after{content:'↑ N';position:absolute;top:10px;right:12px;font-family:'DM Mono',monospace;font-size:.5rem;color:rgba(210,230,200,.6);letter-spacing:.1em;}
+@keyframes drift{from{transform:translate(0,0);}to{transform:translate(8px,8px);}}
+
+/* Texture Check */
+.tv-tc{
+  background:#B89A70;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(0,0,0,.1) 0,rgba(0,0,0,.1) 1.5px,transparent 1.5px,transparent 10px),
+    repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0,rgba(0,0,0,.07) 1.5px,transparent 1.5px,transparent 10px);
+}
+
+/* Notes App Chic */
+.tv-na{background:#fffef5;background-image:repeating-linear-gradient(transparent,transparent 22px,#c8d8e8 22px,#c8d8e8 23px);display:flex;align-items:flex-start;padding:10px 16px;}
+.tv-na::before{content:'✦ big mood\A→ traces felt\A* soft archive';white-space:pre;font-family:'Playfair Display',serif;font-size:.62rem;font-style:italic;color:#333;line-height:23px;}
+.tv-na::after{content:'';position:absolute;left:36px;top:0;bottom:0;width:1.5px;background:rgba(220,100,100,.35);}
+
+/* Opt-Out Era */
+.tv-oe{background:#EEEAE4;display:flex;align-items:center;justify-content:center;}
+.tv-oe::before{content:'— ø —';font-family:'Playfair Display',serif;font-size:1.6rem;letter-spacing:.5em;color:#888;opacity:.45;}
+
+/* Drama Club */
+.tv-dc{background:#1a0a0a;display:flex;align-items:center;justify-content:center;}
+.tv-dc::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(120,20,20,.9) 0%,transparent 40%),repeating-linear-gradient(90deg,#2a0a0a 0,#3d0e0e 8px,#2a0a0a 16px);}
+.tv-dc::after{content:'✦';position:relative;z-index:1;font-size:2rem;color:#d4a94a;text-shadow:0 0 20px rgba(212,169,74,.8);}
+
+/* Granny Wave */
+.tv-gw{background:#fdf0f5;display:flex;align-items:center;justify-content:center;padding:8px;}
+.tv-gw::before{content:'✿ ❋ ✾ ❀\A✿ ❋ ✾ ❀\A✿ ❋ ✾ ❀';white-space:pre;font-size:1rem;color:#c084a0;letter-spacing:.12em;text-align:center;line-height:2;opacity:.85;}
+
+/* Zinegeist */
+.tv-zi{background:#f5f0e0;overflow:hidden;}
+.tv-zi::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(12deg,transparent,transparent 4px,rgba(0,0,0,.04) 4px,rgba(0,0,0,.04) 5px),repeating-linear-gradient(-8deg,transparent,transparent 6px,rgba(0,0,0,.03) 6px,rgba(0,0,0,.03) 7px);}
+.tv-zi::after{content:'CUT\A HERE\A ✂';white-space:pre;position:absolute;top:10px;right:12px;font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:#333;opacity:.45;border-left:1.5px dashed #333;padding-left:6px;line-height:1.8;}
+
+/* Block Party */
+.tv-bp{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:3px;padding:3px;background:#f7c948;}
+.bp-sq:nth-child(1){background:#e8352a;}
+.bp-sq:nth-child(2){background:#1a3fcc;}
+.bp-sq:nth-child(3){background:#1a3fcc;}
+.bp-sq:nth-child(4){background:#e8352a;}
+
+/* card body */
+.tcb{padding:.9rem 1rem 1.1rem;display:flex;flex-direction:column;flex:1;}
+.tc-num{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.14em;color:var(--slate);margin-bottom:.2rem;}
+.tc-name{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;font-style:italic;color:var(--ink);margin-bottom:.3rem;line-height:1.2;}
+.tc-desc{font-family:'DM Mono',monospace;font-size:.53rem;letter-spacing:.02em;color:var(--bark);opacity:.55;line-height:1.55;flex:1;}
+.tc-link{
+  display:inline-flex;align-items:center;gap:.3rem;
+  margin-top:.8rem;
+  font-family:'DM Mono',monospace;font-size:.53rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--teal);text-decoration:none;
+  opacity:.8;transition:opacity .2s,gap .2s;
+}
+.tc-link::after{content:'→';}
+.tc-link:hover{opacity:1;gap:.55rem;}
+
+/* ═══════════════════════════════
+   SERVICES
+═══════════════════════════════ */
+.services-section{
+  padding:8rem 3rem;
+  background:var(--warm-white);
+  display:grid;grid-template-columns:1fr 2fr;
+  gap:6rem;align-items:start;
+}
+.services-sticky{position:sticky;top:6rem;}
+.services-sticky .section-title{margin-top:1rem;margin-bottom:2rem;}
+.services-blurb{font-size:.88rem;line-height:1.75;font-weight:300;color:var(--bark);opacity:.75;}
+
+.srv-list{display:flex;flex-direction:column;gap:1px;background:var(--sand);}
+.srv-item{
+  background:var(--warm-white);
+  padding:2.5rem 2rem;
+  display:grid;grid-template-columns:3.5rem 1fr;
+  gap:1.8rem;align-items:start;
+  transition:background .25s;
+}
+.srv-item:hover{background:var(--linen);}
+.srv-icon{
+  width:3.5rem;height:3.5rem;
+  border:1.5px solid var(--sand);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+  transition:border-color .3s,background .3s;
+}
+.srv-item:hover .srv-icon{border-color:var(--teal);background:var(--teal);color:var(--cream);}
+.srv-name{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:.5rem;}
+.srv-detail{font-size:.85rem;line-height:1.68;font-weight:300;color:var(--bark);opacity:.7;}
+
+.srv-bundle{
+  background:var(--juniper);
+  padding:2.5rem 2rem;
+  display:grid;grid-template-columns:3.5rem 1fr;
+  gap:1.8rem;align-items:start;
+  position:relative;overflow:hidden;
+}
+.srv-bundle::after{
+  content:'BEST VALUE';
+  position:absolute;top:1rem;right:-2.2rem;
+  background:var(--rust);color:var(--warm-white);
+  font-family:'DM Mono',monospace;font-size:.5rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  padding:.3rem 3rem;transform:rotate(45deg);
+}
+.srv-bundle .srv-icon{border-color:rgba(214,202,181,.3);}
+.srv-bundle .srv-name,.srv-bundle .srv-detail{color:var(--sand);}
+.srv-bundle .srv-detail{opacity:.6;}
+
+/* ═══════════════════════════════
+   PROCESS — JUNIPER GREEN
+═══════════════════════════════ */
+.process-section{
+  padding:8rem 3rem;
+  background:var(--juniper);color:var(--cream);
+}
+.process-header{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  margin-bottom:5rem;
+}
+.process-header .section-eyebrow{color:rgba(214,202,181,.6);}
+.process-header .section-eyebrow::before{background:rgba(214,202,181,.4);}
+.process-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,4.5vw,4rem);
+  line-height:1;font-weight:900;color:var(--cream);
+}
+.process-sub{
+  font-size:.88rem;font-weight:300;
+  opacity:.55;max-width:22rem;line-height:1.7;
+}
+.process-steps{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(214,202,181,.12);
+}
+.pstep{
+  padding:3.5rem 2.5rem;background:var(--juniper);
+  position:relative;
+}
+.pstep-num{
+  font-family:'Playfair Display',serif;font-size:6rem;
+  line-height:1;color:var(--cream);opacity:.08;
+  position:absolute;top:.5rem;right:1.5rem;
+  font-style:italic;
+}
+.pstep-icon{font-size:1.6rem;margin-bottom:1.5rem;opacity:.9;}
+.pstep-title{
+  font-family:'Playfair Display',serif;font-size:1.3rem;
+  font-weight:700;font-style:italic;color:var(--cream);
+  margin-bottom:.75rem;
+}
+.pstep-desc{font-size:.85rem;font-weight:300;opacity:.55;line-height:1.7;}
+
+/* ═══════════════════════════════
+   QUIZ
+═══════════════════════════════ */
+.quiz-section{
+  padding:8rem 3rem;background:var(--ink);color:var(--cream);
+  display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;
+}
+.quiz-left .section-eyebrow{color:rgba(214,202,181,.5);}
+.quiz-left .section-eyebrow::before{background:rgba(214,202,181,.4);}
+.quiz-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.5rem,4vw,4rem);
+  line-height:1;font-weight:900;
+  color:var(--cream);margin-top:1rem;margin-bottom:1.5rem;
+}
+.quiz-title em{font-style:italic;color:var(--clay);}
+.quiz-desc{font-size:.9rem;font-weight:300;line-height:1.75;opacity:.5;margin-bottom:2.5rem;}
+
+.quiz-card{background:var(--linen);color:var(--ink);padding:2.5rem;position:relative;}
+.quiz-prog{
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  opacity:.4;margin-bottom:1.5rem;
+}
+.quiz-q{
+  font-family:'Playfair Display',serif;font-size:1.15rem;
+  font-weight:700;font-style:italic;
+  margin-bottom:1.5rem;line-height:1.4;
+}
+.quiz-opts{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;}
+.quiz-opt{
+  border:1.5px solid var(--sand);
+  padding:.75rem 1rem;
+  font-family:'DM Mono',monospace;font-size:.66rem;
+  letter-spacing:.04em;cursor:pointer;
+  background:transparent;text-align:left;color:var(--ink);
+  transition:all .2s;
+}
+.quiz-opt:hover,.quiz-opt.sel{border-color:var(--ink);background:var(--ink);color:var(--cream);}
+.quiz-foot{display:flex;justify-content:flex-end;}
+.quiz-next{
+  background:var(--bark);color:var(--cream);
+  border:none;font-family:'DM Mono',monospace;
+  font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+  padding:.75rem 1.5rem;cursor:pointer;
+  transition:background .2s;
+}
+.quiz-next:hover{background:var(--teal);}
+
+/* ═══════════════════════════════
+   CONTACT
+═══════════════════════════════ */
+.contact-section{
+  padding:8rem 3rem;background:var(--linen);
+  display:grid;grid-template-columns:1fr 1.3fr;gap:6rem;align-items:start;
+}
+.contact-info{margin-top:3rem;display:flex;flex-direction:column;gap:1.8rem;}
+.ci-label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;opacity:.4;margin-bottom:.2rem;}
+.ci-val{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:400;font-style:italic;}
+
+.contact-form{display:flex;flex-direction:column;gap:1.6rem;}
+.fg{display:flex;flex-direction:column;gap:.4rem;}
+.fg label{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;opacity:.45;}
+.fg input,.fg select,.fg textarea{
+  background:transparent;border:none;
+  border-bottom:1.5px solid var(--sand);
+  padding:.65rem 0;
+  font-family:'Playfair Display',serif;font-size:.95rem;
+  font-style:italic;color:var(--ink);
+  outline:none;transition:border-color .2s;width:100%;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--bark);}
+.fg textarea{resize:none;min-height:5rem;}
+.fg select option{background:var(--linen);font-style:normal;}
+.btn-submit{
+  background:var(--ink);color:var(--warm-white);border:none;
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:1rem 2.5rem;cursor:pointer;align-self:flex-start;
+  transition:background .2s;
+}
+.btn-submit:hover{background:var(--teal);}
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+footer{
+  background:var(--ink);color:var(--sand);
+  padding:2.5rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;
+  border-top:1px solid rgba(181,162,138,.1);
+}
+.footer-brand{font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;}
+.footer-sub{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.14em;text-transform:uppercase;opacity:.3;margin-top:.2rem;}
+.footer-r{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;opacity:.28;}
+
+/* SCROLL FADE */
+.fi{opacity:0;transform:translateY(28px);transition:opacity .75s ease,transform .75s cubic-bezier(.23,1,.32,1);}
+.fi.v{opacity:1;transform:none;}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* Responsive */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr;}
+  .hero-right{min-height:55vh;}
+  .trends-header,.services-section,.quiz-section,.contact-section{grid-template-columns:1fr;gap:2.5rem;}
+  .trends-grid{grid-template-columns:repeat(2,1fr);}
+  .process-steps{grid-template-columns:1fr;}
+  nav{padding:1rem 1.5rem;}
+  .services-sticky{position:static;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Juniper Valley</a>
+  <ul class="nav-links">
+    <li><a href="#trends">Trends</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow fi v">Your neighborhood design partner</div>
+    <h1 class="hero-title fi v d1">
+      <span class="thin">Imperfect by</span>
+      Design.<br>
+      <span class="italic">Perfectly</span><br>
+      Yours.
+    </h1>
+    <p class="hero-sub fi v d2">We don't do generic. Choose from 10 distinct design aesthetics and let us build the brand that's been living in your head — logo to launch.</p>
+    <div class="hero-ctas fi v d3">
+      <a href="#contact" class="btn-primary">Start Your Project</a>
+      <a href="#trends" class="btn-ghost">Find Your Aesthetic</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hcard hc1"><div class="hcard-num">01</div><div class="hcard-label">Explorecore</div><div class="hcard-hover"><span>Choose →</span></div></div>
+    <div class="hcard hc2"><div class="hcard-num">02</div><div class="hcard-label">Texture Check</div><div class="hcard-hover"><span>Choose →</span></div></div>
+    <div class="hcard hc3"><div class="hcard-num">03</div><div class="hcard-label">Drama Club</div><div class="hcard-hover"><span>Choose →</span></div></div>
+    <div class="hcard hc4"><div class="hcard-num">04</div><div class="hcard-label">Granny Wave</div><div class="hcard-hover"><span>Choose →</span></div></div>
+    <div class="hcard hc5"><div class="hcard-num">05</div><div class="hcard-label">Opt-Out Era</div><div class="hcard-hover"><span>Choose →</span></div></div>
+    <div class="hcard hc6"><div class="hcard-num">06</div><div class="hcard-label">Notes App Chic</div><div class="hcard-hover"><span>Choose →</span></div></div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Graphic Design</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Web Development</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Social Media</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Brand Identity</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">10 Design Trends</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Zero to Launch</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Small Business Focused</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Texture Check</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Graphic Design</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Web Development</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Social Media</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Brand Identity</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">10 Design Trends</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Zero to Launch</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Small Business Focused</span><span class="ticker-item ticker-sep">✦</span>
+    <span class="ticker-item">Texture Check</span><span class="ticker-item ticker-sep">✦</span>
+  </div>
+</div>
+
+<!-- TRENDS -->
+<section class="trends-section" id="trends">
+  <div class="trends-header">
+    <div>
+      <div class="section-eyebrow fi">Pick Your Aesthetic</div>
+      <h2 class="section-title fi d1">10 Trends.<br><em>One Yours.</em></h2>
+    </div>
+    <p class="trends-desc fi d2">Every brand has a personality. We've mapped the 10 most vibrant design movements of today — pick what feels like you, and we'll make it undeniably real.</p>
+  </div>
+  <div class="trends-grid">
+    <div class="tcard fi"><div class="tv tv-rw"></div><div class="tcb"><div class="tc-num">01</div><div class="tc-name">Reality Warp</div><div class="tc-desc">Surreal morphing shapes, dreamy gradients, unapologetically strange</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d1"><div class="tv tv-pp"></div><div class="tcb"><div class="tc-num">02</div><div class="tc-name">Prompt Playground</div><div class="tc-desc">AI-native aesthetics, terminal energy, generative and raw</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d2"><div class="tv tv-ex"></div><div class="tcb"><div class="tc-num">03</div><div class="tc-name">Explorecore</div><div class="tc-desc">Adventure-ready, map-textured, built for wanderers</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d3"><div class="tv tv-tc"></div><div class="tcb"><div class="tc-num">04</div><div class="tc-name">Texture Check</div><div class="tc-desc">Rich tactile surfaces, woven warmth, material depth</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d4"><div class="tv tv-na"></div><div class="tcb"><div class="tc-num">05</div><div class="tc-name">Notes App Chic</div><div class="tc-desc">Raw, unfiltered, hand-scrawled, brutally honest</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi"><div class="tv tv-oe"></div><div class="tcb"><div class="tc-num">06</div><div class="tc-name">Opt-Out Era</div><div class="tc-desc">Quiet refusal, anti-noise, intentionally withdrawn</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d1"><div class="tv tv-dc"></div><div class="tcb"><div class="tc-num">07</div><div class="tc-name">Drama Club</div><div class="tc-desc">Theatrical richness, velvet tones, spotlight moments</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d2"><div class="tv tv-gw"></div><div class="tcb"><div class="tc-num">08</div><div class="tc-name">Granny Wave</div><div class="tc-desc">Cozy florals, crochet nostalgia, warmly reimagined</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d3"><div class="tv tv-zi"></div><div class="tcb"><div class="tc-num">09</div><div class="tc-name">Zinegeist</div><div class="tc-desc">Photocopied collage, cut-and-paste, underground energy</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+    <div class="tcard fi d4"><div class="tv tv-bp"><span class="bp-sq"></span><span class="bp-sq"></span><span class="bp-sq"></span><span class="bp-sq"></span></div><div class="tcb"><div class="tc-num">10</div><div class="tc-name">Block Party</div><div class="tc-desc">Bold primary geometry, chunky shapes, zero compromise</div><a class="tc-link" href="#contact">Choose This</a></div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="services-sticky">
+    <div class="section-eyebrow fi">What We Do</div>
+    <h2 class="section-title fi d1">Three<br><em>Services.</em><br>One Team.</h2>
+    <p class="services-blurb fi d2">We handle everything from logo to storefront to social — so you can focus on the actual work of running your business.</p>
+  </div>
+  <div class="srv-list">
+    <div class="srv-item fi">
+      <div class="srv-icon">✏</div>
+      <div>
+        <div class="srv-name">Graphic Design</div>
+        <div class="srv-detail">Logos, brand identity systems, print collateral, and every visual asset your business needs to feel unmistakably itself. Rooted in your chosen aesthetic, built to last.</div>
+      </div>
+    </div>
+    <div class="srv-item fi d1">
+      <div class="srv-icon">⬡</div>
+      <div>
+        <div class="srv-name">Websites</div>
+        <div class="srv-detail">Custom-designed sites that are fast, accessible, and built around your brand's texture and feel. Your digital storefront — designed to convert visitors into loyal customers.</div>
+      </div>
+    </div>
+    <div class="srv-item fi d2">
+      <div class="srv-icon">◈</div>
+      <div>
+        <div class="srv-name">Social Media</div>
+        <div class="srv-detail">Templates, content strategy, and posting systems designed to your trend — so your feed looks like a brand, not an afterthought.</div>
+      </div>
+    </div>
+    <div class="srv-bundle fi d3">
+      <div class="srv-icon">✦</div>
+      <div>
+        <div class="srv-name">Zero to Launch Bundle</div>
+        <div class="srv-detail">All three services. One price. One team. Limited to 5 founding clients — get everything you need to open your doors, branded and beautiful.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process-section" id="process">
+  <div class="process-header">
+    <div>
+      <div class="section-eyebrow fi">How It Works</div>
+      <h2 class="process-title fi d1">Simple.<br>3 Steps.</h2>
+    </div>
+    <p class="process-sub fi d2">Getting a small business off the ground is hard enough. Your design process shouldn't be a second job.</p>
+  </div>
+  <div class="process-steps">
+    <div class="pstep fi">
+      <div class="pstep-num">01</div>
+      <div class="pstep-icon">◉</div>
+      <div class="pstep-title">Pick Your Trend</div>
+      <div class="pstep-desc">Browse all 10 design aesthetics. Choose the one that feels like your brand personality, or take our quiz to find out which one you are.</div>
+    </div>
+    <div class="pstep fi d2">
+      <div class="pstep-num">02</div>
+      <div class="pstep-icon">◈</div>
+      <div class="pstep-title">We Design & Build</div>
+      <div class="pstep-desc">Our team brings your chosen trend to life across every touchpoint — graphics, site, and social — in one unified creative sprint.</div>
+    </div>
+    <div class="pstep fi d4">
+      <div class="pstep-num">03</div>
+      <div class="pstep-icon">✦</div>
+      <div class="pstep-title">You Launch</div>
+      <div class="pstep-desc">Go live with a complete brand system. Full ownership of every file, every asset, every pixel. Then go run your business.</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section class="quiz-section" id="quiz">
+  <div class="quiz-left">
+    <div class="section-eyebrow fi">Free Brand Quiz</div>
+    <h2 class="quiz-title fi d1">Find Your<br><em>Perfect</em><br>Aesthetic</h2>
+    <p class="quiz-desc fi d2">Not sure which of the 10 trends fits your brand? Answer 4 quick questions and we'll reveal your design personality — and send a tailored mood board to your inbox.</p>
+    <a href="#contact" class="btn-primary fi d3" style="background:var(--teal);">Take the Full Quiz</a>
+  </div>
+  <div class="quiz-card fi d2">
+    <div class="quiz-prog">Question 1 of 4</div>
+    <div class="quiz-q">When you walk into a space that feels like your brand, what do you notice first?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="sel(this)">Warm textures and materials you want to touch</button>
+      <button class="quiz-opt" onclick="sel(this)">Bold colour and zero apology</button>
+      <button class="quiz-opt" onclick="sel(this)">A quiet that feels intentional, not empty</button>
+      <button class="quiz-opt" onclick="sel(this)">Something strange that you can't quite place</button>
+    </div>
+    <div class="quiz-foot">
+      <button class="quiz-next" onclick="window.location='#contact'">Next →</button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div>
+    <div class="section-eyebrow fi">Let's Work Together</div>
+    <h2 class="section-title fi d1">Start Your<br><em>Project.</em></h2>
+    <div class="contact-info fi d2">
+      <div><div class="ci-label">Email</div><div class="ci-val">hello@junipervalley.co</div></div>
+      <div><div class="ci-label">Location</div><div class="ci-val">Your Neighborhood & Beyond</div></div>
+      <div><div class="ci-label">Response Time</div><div class="ci-val">Within 24 hours, always.</div></div>
+    </div>
+  </div>
+  <form class="contact-form fi d2" onsubmit="return false;">
+    <div class="fg">
+      <label>Your Name</label>
+      <input type="text" placeholder="Jane Doe">
+    </div>
+    <div class="fg">
+      <label>Business Name</label>
+      <input type="text" placeholder="Your Business">
+    </div>
+    <div class="fg">
+      <label>Email</label>
+      <input type="email" placeholder="jane@yourbusiness.com">
+    </div>
+    <div class="fg">
+      <label>Your Design Trend</label>
+      <select>
+        <option value="">— Choose your aesthetic —</option>
+        <option>Reality Warp</option>
+        <option>Prompt Playground</option>
+        <option>Explorecore</option>
+        <option>Texture Check</option>
+        <option>Notes App Chic</option>
+        <option>Opt-Out Era</option>
+        <option>Drama Club</option>
+        <option>Granny Wave</option>
+        <option>Zinegeist</option>
+        <option>Block Party</option>
+        <option>Not sure — take the quiz!</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Services Needed</label>
+      <select>
+        <option value="">— What do you need? —</option>
+        <option>Graphic Design only</option>
+        <option>Website only</option>
+        <option>Social Media only</option>
+        <option>Zero to Launch Bundle (all three)</option>
+        <option>Not sure yet</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label>Tell Us About Your Business</label>
+      <textarea placeholder="What do you do, and what are you hoping to build?"></textarea>
+    </div>
+    <button type="submit" class="btn-submit">Send It →</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Juniper Valley Imperfect Design</div>
+    <div class="footer-sub">Your neighborhood design partner</div>
+  </div>
+  <div class="footer-r">© 2025 JVID — All rights reserved</div>
+</footer>
+
+<script>
+// Scroll fade-in
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});
+},{threshold:.12});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+// Quiz option select
+function sel(btn){
+  btn.closest('.quiz-opts').querySelectorAll('.quiz-opt').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+</script>
+</body>
+</html>
