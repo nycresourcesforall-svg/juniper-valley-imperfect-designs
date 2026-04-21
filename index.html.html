@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juniper Valley Imperfect Design | Custom Digital Craft for Local Leaders</title>
+<meta name="description" content="Hand-coded websites, brand identity, and social media for small businesses. Based in Middle Village, Queens. Building for the web since the very beginning.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════ */
+:root{
+  --ink:#0F2318;
+  --green:#1A3D28;
+  --green-mid:#2A5C3E;
+  --sage:#7BAF8E;
+  --cream:#F0EBE0;
+  --warm:#E8E0D0;
+  --rust:#B84A1E;
+  --purple:#3D3080;
+  --sand:#C8B898;
+  --white:#FAF8F4;
+  --linen:#EDE8DC;
+}
+
+/* ═══════════════════════════════════════════
+   PAPER GRAIN — Halftone dot texture
+   (also used as the Granny Wave base)
+═══════════════════════════════════════════ */
+.grain{
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='1.5' cy='1.5' r='.7' fill='%230F2318' opacity='.055'/%3E%3C/svg%3E");
+  background-size:6px 6px;
+}
+
+/* ── GRANNY WAVE paper grain (warmer, denser) ── */
+.grain-gw{
+  background-color:#EDE2C8;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='.55' fill='%236B4C2A' opacity='.09'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='3.5' fill='none' stroke='%23A0784A' stroke-width='.4' opacity='.12'/%3E%3C/svg%3E");
+  background-size:4px 4px, 12px 12px;
+}
+
+/* ── TEXTURE CHECK linen weave ── */
+.grain-tc{
+  background-color:#C4A882;
+  background-image:
+    repeating-linear-gradient(0deg,  rgba(80,50,20,.11) 0,rgba(80,50,20,.11) 1.5px,transparent 1.5px,transparent 7px),
+    repeating-linear-gradient(90deg, rgba(80,50,20,.07) 0,rgba(80,50,20,.07) 1.5px,transparent 1.5px,transparent 7px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='.4' fill='%23502814' opacity='.07'/%3E%3C/svg%3E");
+  background-size:auto, auto, 4px 4px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+
+/* body-wide dot grain */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9997;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='.38' fill='%230F2318' opacity='.045'/%3E%3C/svg%3E");
+  background-size:4px 4px;
+}
+
+/* ══════════════ NAV ══════════════ */
+nav{
+  position:sticky;top:0;z-index:200;
+  background:var(--ink);
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.85rem 3rem;
+  border-bottom:2px solid var(--green-mid);
+}
+.nav-logo-wrap{display:flex;flex-direction:column;line-height:1;}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-style:italic;font-size:1.05rem;font-weight:700;
+  color:var(--cream);text-decoration:none;letter-spacing:.01em;
+}
+.nav-subhead{
+  font-family:'DM Mono',monospace;font-size:.5rem;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--sage);margin-top:.15rem;opacity:.7;
+}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--sage);text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--cream);}
+.nav-cta{
+  background:var(--rust);color:var(--white);border:none;
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  padding:.6rem 1.3rem;cursor:pointer;text-decoration:none;
+  transition:background .2s;white-space:nowrap;
+}
+.nav-cta:hover{background:#943d18;}
+
+/* ══════════════ HERO ══════════════ */
+.hero{
+  background:var(--ink);color:var(--cream);
+  padding:6rem 3rem 5rem;
+  position:relative;overflow:hidden;
+}
+.hero-year{
+  position:absolute;right:-1rem;top:50%;transform:translateY(-50%);
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:clamp(10rem,22vw,22rem);line-height:1;
+  color:var(--green-mid);opacity:.3;
+  pointer-events:none;user-select:none;
+}
+.hero-inner{position:relative;z-index:2;max-width:840px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--green);border:1.5px solid var(--green-mid);
+  padding:.4rem 1rem;margin-bottom:2rem;
+}
+.hero-badge span{
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.17em;text-transform:uppercase;color:var(--sage);
+}
+h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.8rem,6vw,6rem);
+  font-weight:900;line-height:1.02;
+  color:var(--cream);margin-bottom:1.5rem;
+  letter-spacing:-.02em;
+}
+h1 em{font-style:italic;color:var(--sage);}
+.hero-sub{
+  font-size:1.15rem;font-weight:300;line-height:1.7;
+  color:var(--sand);max-width:600px;margin-bottom:3rem;
+}
+.hero-sub strong{color:var(--cream);font-weight:600;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;margin-bottom:4rem;}
+.btn-big{
+  background:var(--rust);color:var(--white);
+  font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;
+  padding:1rem 2.2rem;text-decoration:none;border:none;cursor:pointer;
+  transition:background .2s,transform .15s;display:inline-block;
+}
+.btn-big:hover{background:#943d18;transform:translateY(-2px);}
+.btn-outline{
+  border:1.5px solid var(--green-mid);color:var(--sage);
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:400;
+  padding:1rem 1.8rem;text-decoration:none;
+  transition:border-color .2s,color .2s;display:inline-block;
+}
+.btn-outline:hover{border-color:var(--sage);color:var(--cream);}
+.hero-stamps{
+  display:flex;gap:1.2rem;flex-wrap:wrap;
+  border-top:1px solid var(--green-mid);padding-top:2rem;
+}
+.stamp{
+  display:flex;flex-direction:column;
+  border:1.5px solid var(--green-mid);
+  padding:.8rem 1.2rem;min-width:130px;
+}
+.stamp-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--cream);line-height:1;}
+.stamp-label{font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-top:.2rem;}
+
+/* ══════════════ TICKER ══════════════ */
+.ticker{background:var(--green);padding:.7rem 0;overflow:hidden;border-top:2px solid var(--green-mid);border-bottom:2px solid var(--green-mid);}
+.ticker-track{display:flex;width:max-content;animation:ticker 22s linear infinite;}
+.ti{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;padding:0 2rem;white-space:nowrap;color:var(--sage);}
+.td{color:var(--cream);opacity:.4;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ══════════════ SHARED ══════════════ */
+.sec{padding:6rem 3rem;}
+.sec-label{
+  font-family:'DM Mono',monospace;font-size:.58rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--rust);
+  margin-bottom:.8rem;display:flex;align-items:center;gap:.7rem;
+}
+.sec-label::before{content:'';width:2rem;height:2px;background:var(--rust);}
+h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,3.8vw,3.5rem);
+  font-weight:900;line-height:1.06;letter-spacing:-.01em;
+}
+h2 em{font-style:italic;color:var(--green-mid);}
+
+/* ══════════════ SERVICE MATRIX — COMPARISON TABLE ══════════════ */
+.matrix-sec{background:var(--white);}
+.matrix-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;gap:2rem;flex-wrap:wrap;}
+.matrix-desc{font-size:.9rem;line-height:1.7;font-weight:300;max-width:360px;color:#4A4033;align-self:flex-end;}
+
+.compare-table{width:100%;border-collapse:collapse;border:2px solid var(--ink);}
+.compare-table th{
+  font-family:'DM Mono',monospace;font-size:.65rem;
+  letter-spacing:.15em;text-transform:uppercase;
+  padding:1rem 1.5rem;text-align:left;
+  border-bottom:2px solid var(--ink);
+}
+.compare-table th:first-child{background:var(--warm);color:var(--ink);width:20%;}
+.compare-table th.col-bad{background:#8B3A1A;color:var(--cream);}
+.compare-table th.col-good{background:var(--green);color:var(--cream);}
+.compare-table td{
+  padding:1.1rem 1.5rem;vertical-align:top;
+  border-bottom:1px solid var(--warm);
+  font-size:.88rem;line-height:1.6;
+}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table td:first-child{
+  font-family:'DM Mono',monospace;font-size:.6rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--bark,#6B5B47);opacity:.7;font-weight:400;
+  background:var(--linen);
+}
+.compare-table td.diy{color:#7A2E10;background:rgba(184,74,30,.04);}
+.compare-table td.diy::before{content:'✗  ';opacity:.5;}
+.compare-table td.jv{color:var(--green);background:rgba(26,61,40,.04);}
+.compare-table td.jv::before{content:'✓  ';}
+
+/* ══════════════ WHY HAND-CODED ══════════════ */
+.why-sec{
+  background:var(--ink);color:var(--cream);
+  padding:6rem 3rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+}
+.why-left .sec-label{color:var(--sage);}
+.why-left .sec-label::before{background:var(--sage);}
+.why-left h2{color:var(--cream);margin-top:.8rem;margin-bottom:1.5rem;}
+.why-left h2 em{color:var(--sage);}
+.why-left p{font-size:.95rem;line-height:1.75;font-weight:300;color:var(--sand);margin-bottom:1.2rem;}
+.why-left strong{color:var(--cream);}
+.tailor-cards{display:flex;flex-direction:column;gap:1px;background:var(--green-mid);}
+.tc-card{
+  background:rgba(15,35,24,.6);
+  padding:1.8rem 2rem;
+  display:grid;grid-template-columns:2.5rem 1fr;gap:1.2rem;
+  align-items:start;
+  transition:background .2s;
+}
+.tc-card:hover{background:rgba(42,92,62,.5);}
+.tc-icon{font-size:1.2rem;padding-top:.1rem;}
+.tc-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;font-style:italic;color:var(--cream);margin-bottom:.3rem;}
+.tc-body{font-size:.82rem;line-height:1.6;color:var(--sand);opacity:.75;}
+
+/* ══════════════ TRUST / 1996 ══════════════ */
+.trust-sec{
+  background:var(--ink);color:var(--cream);
+  padding:6rem 3rem;position:relative;overflow:hidden;
+}
+.trust-year-bg{
+  position:absolute;left:-2rem;top:50%;transform:translateY(-50%);
+  font-family:'Playfair Display',serif;font-weight:900;
+  font-size:clamp(12rem,28vw,28rem);line-height:1;
+  color:var(--green-mid);opacity:.2;
+  pointer-events:none;user-select:none;
+}
+.trust-inner{position:relative;z-index:2;max-width:780px;}
+.trust-inner h2{color:var(--cream);margin:.8rem 0 1.5rem;}
+.trust-inner h2 em{color:var(--sage);}
+.trust-body{font-size:1.1rem;line-height:1.78;font-weight:300;color:var(--sand);max-width:620px;margin-bottom:2.5rem;}
+.trust-body strong{color:var(--cream);}
+.seal-row{display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:2.5rem;}
+.seal{
+  width:88px;height:88px;border-radius:50%;
+  border:2px solid var(--green-mid);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.1rem;
+}
+.seal span:nth-child(1){font-family:'DM Mono',monospace;font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);}
+.seal span:nth-child(2){font-family:'Playfair Display',serif;font-size:.82rem;font-weight:700;color:var(--cream);font-style:italic;line-height:1.15;}
+.seal span:nth-child(3){font-family:'DM Mono',monospace;font-size:.38rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);}
+.trust-contact{display:flex;align-items:center;gap:2rem;flex-wrap:wrap;border-top:1px solid var(--green-mid);padding-top:2rem;}
+.trust-email{font-family:'Playfair Display',serif;font-size:1.25rem;font-style:italic;color:var(--cream);}
+.trust-tag{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);}
+
+/* ══════════════ TRENDS — ARTIFACT-FOCUSED ══════════════ */
+.trends-sec{background:var(--cream);}
+.trends-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;gap:2rem;flex-wrap:wrap;}
+.trends-note{font-size:.88rem;line-height:1.65;font-weight:300;max-width:340px;color:#4A4033;}
+
+/* Big 4 analog cards */
+.analog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:1.5rem;}
+.acard{border-radius:6px;overflow:hidden;display:flex;flex-direction:column;border:1.5px solid rgba(15,35,24,.1);transition:transform .3s cubic-bezier(.23,1,.32,1),box-shadow .3s;background:var(--white);}
+.acard:hover{transform:translateY(-7px) rotate(.4deg);box-shadow:0 18px 44px rgba(15,35,24,.14);}
+.acard-vis{height:180px;position:relative;overflow:hidden;flex-shrink:0;}
+.acard-body{padding:1.1rem 1rem 1.4rem;}
+.acard-num{font-family:'DM Mono',monospace;font-size:.48rem;letter-spacing:.14em;opacity:.35;margin-bottom:.2rem;}
+.acard-name{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:.35rem;}
+.acard-desc{font-size:.78rem;line-height:1.55;color:#4A4033;font-weight:300;}
+.acard-choose{display:inline-flex;align-items:center;gap:.3rem;margin-top:.7rem;font-family:'DM Mono',monospace;font-size:.53rem;letter-spacing:.1em;text-transform:uppercase;color:var(--rust);text-decoration:none;transition:gap .2s;}
+.acard-choose:hover{gap:.55rem;}
+.acard-choose::after{content:'→';}
+
+/* ── Granny Wave: warm paper + vintage florals ── */
+.av-gw{background:#EDE2C8;position:relative;}
+.av-gw::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='.55' fill='%236B4C2A' opacity='.09'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12'%3E%3Ccircle cx='6' cy='6' r='3.5' fill='none' stroke='%23A0784A' stroke-width='.4' opacity='.14'/%3E%3C/svg%3E");
+  background-size:4px 4px, 12px 12px;
+}
+.av-gw-flowers{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:.5rem;padding:1.2rem;
+  font-size:1.8rem;
+  filter:sepia(.3) saturate(.8);
+  opacity:.65;
+  line-height:1.4;
+  text-align:center;
+  letter-spacing:.15em;
+  color:#7A4A1E;
+  z-index:1;
+}
+
+/* ── Zinegeist: torn paper / collage ── */
+.av-zi{background:#1A1A1A;position:relative;overflow:hidden;}
+.av-zi::before{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(138deg,#e8352a 0%,#e8352a 28%,transparent 28%),
+    linear-gradient(228deg,#1a3fcc 0%,#1a3fcc 36%,transparent 36%),
+    repeating-linear-gradient(45deg,rgba(255,255,255,.04) 0,rgba(255,255,255,.04) 2px,transparent 2px,transparent 14px);
+}
+.av-zi::after{
+  content:'Zine\Ageist';white-space:pre;
+  position:absolute;bottom:1rem;left:1rem;z-index:2;
+  font-family:'DM Sans',sans-serif;font-size:1.9rem;font-weight:700;
+  color:#fff;line-height:1.1;text-shadow:3px 3px 0 #1a3fcc;
+}
+/* torn edge */
+.av-zi-tear{
+  position:absolute;bottom:0;left:0;right:0;height:20px;z-index:3;
+  background:var(--white);
+  clip-path:polygon(0 100%,2% 60%,5% 80%,8% 55%,12% 75%,16% 50%,20% 70%,25% 45%,30% 65%,35% 48%,40% 68%,45% 42%,50% 62%,55% 44%,60% 64%,65% 46%,70% 66%,75% 50%,80% 70%,85% 52%,90% 72%,95% 56%,100% 66%,100% 100%);
+}
+
+/* ── Texture Check: woven linen ── */
+.av-tc{
+  position:relative;
+  background-color:#C4A882;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(80,50,20,.11) 0,rgba(80,50,20,.11) 1.5px,transparent 1.5px,transparent 7px),
+    repeating-linear-gradient(90deg,rgba(80,50,20,.07) 0,rgba(80,50,20,.07) 1.5px,transparent 1.5px,transparent 7px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Ccircle cx='1' cy='1' r='.4' fill='%23502814' opacity='.07'/%3E%3C/svg%3E");
+  background-size:auto,auto,4px 4px;
+  display:flex;align-items:center;justify-content:center;
+}
+.av-tc-stamp{
+  font-family:'Playfair Display',serif;font-size:1.85rem;font-weight:700;
+  color:rgba(80,50,20,.5);line-height:1.2;text-align:center;
+  border:3px solid rgba(80,50,20,.25);padding:.6rem 1.2rem;
+  position:relative;z-index:1;
+  letter-spacing:.02em;
+}
+
+/* ── Notes App Chic: lined paper ── */
+.av-na{
+  background:#FFFEF5;
+  background-image:repeating-linear-gradient(transparent,transparent 26px,#BDD0E0 26px,#BDD0E0 27px);
+  padding:1rem 1.5rem 1rem 3rem;position:relative;overflow:hidden;
+}
+.av-na::before{content:'';position:absolute;left:2.1rem;top:0;bottom:0;width:2px;background:rgba(200,80,80,.35);}
+.av-na-text{font-family:'Playfair Display',serif;font-size:.82rem;font-style:italic;color:#222;line-height:27px;}
+
+/* Mini row of remaining 6 */
+.mini-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1rem;}
+.mcard{background:var(--white);border:1.5px solid rgba(15,35,24,.1);border-radius:5px;overflow:hidden;transition:transform .25s;}
+.mcard:hover{transform:translateY(-4px);}
+.mcard-vis{height:78px;position:relative;overflow:hidden;}
+.mv-rw{background:#0e0b1a;}
+.mv-rw::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 50%,#c084fc,#818cf8,transparent 65%);animation:warp 4s ease-in-out infinite alternate;opacity:.9;}
+.mv-rw::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 70% 60%,#f472b6,transparent 55%);animation:warp 3s ease-in-out infinite alternate-reverse;}
+@keyframes warp{from{transform:scale(1) rotate(0deg);}to{transform:scale(1.15) rotate(15deg);}}
+.mv-pp{background:#0f1117;display:flex;align-items:center;justify-content:center;}
+.mv-pp::before{content:'> gen_\A> run_';white-space:pre;font-family:'DM Mono',monospace;font-size:.52rem;color:#22c55e;text-shadow:0 0 6px #22c55e;line-height:1.8;}
+.mv-ex{background:#2d4a3e;}
+.mv-ex::before{content:'';position:absolute;inset:0;background:repeating-radial-gradient(ellipse at 50% 50%,transparent,transparent 10px,rgba(163,200,150,.2) 11px,transparent 12px);}
+.mv-oe{background:#EEEAE4;display:flex;align-items:center;justify-content:center;}
+.mv-oe::before{content:'— ø —';font-family:'Playfair Display',serif;font-size:1.1rem;letter-spacing:.3em;color:#999;opacity:.5;}
+.mv-dc{background:#1a0a0a;display:flex;align-items:center;justify-content:center;}
+.mv-dc::after{content:'✦';font-size:1.5rem;color:#d4a94a;text-shadow:0 0 12px rgba(212,169,74,.8);}
+.mv-bp{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:2px;background:#f7c948;padding:2px;}
+.bp-s:nth-child(1){background:#e8352a;}.bp-s:nth-child(2){background:#1a3fcc;}.bp-s:nth-child(3){background:#1a3fcc;}.bp-s:nth-child(4){background:#e8352a;}
+.mcard-name{font-family:'Playfair Display',serif;font-size:.76rem;font-weight:700;font-style:italic;padding:.45rem .65rem .15rem;}
+.mcard-num{font-family:'DM Mono',monospace;font-size:.46rem;letter-spacing:.12em;color:var(--sand);padding:0 .65rem .5rem;}
+
+/* ══════════════ PROCESS ══════════════ */
+.process-sec{
+  background:var(--green);color:var(--cream);padding:6rem 3rem;position:relative;overflow:hidden;
+}
+.process-sec::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(122,175,142,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(122,175,142,.07) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.process-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem;position:relative;z-index:2;flex-wrap:wrap;gap:1.5rem;}
+.process-header h2{color:var(--cream);}
+.process-sub{font-size:.88rem;font-weight:300;opacity:.5;max-width:280px;line-height:1.65;}
+.step-rail{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr;align-items:center;position:relative;z-index:2;}
+.step-arrow{text-align:center;font-size:1.8rem;color:var(--sage);opacity:.4;}
+.step-box{background:rgba(15,35,24,.5);border:1.5px solid rgba(122,175,142,.22);padding:2.5rem 2rem;backdrop-filter:blur(4px);}
+.step-num{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:900;font-style:italic;color:var(--sage);opacity:.3;line-height:1;margin-bottom:.5rem;}
+.step-title{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--cream);margin-bottom:.75rem;}
+.step-desc{font-size:.83rem;font-weight:300;opacity:.58;line-height:1.65;}
+.step-tag{display:inline-block;margin-top:1rem;border:1px solid var(--green-mid);font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);padding:.22rem .55rem;}
+
+/* ══════════════ QUIZ ══════════════ */
+.quiz-sec{background:var(--white);display:grid;grid-template-columns:1fr 1fr;gap:0;}
+.quiz-left{padding:6rem 3rem;background:var(--ink);color:var(--cream);}
+.quiz-left .sec-label{color:var(--sage);}
+.quiz-left .sec-label::before{background:var(--sage);}
+.quiz-left h2{color:var(--cream);margin-top:.8rem;margin-bottom:1.2rem;}
+.quiz-left h2 em{color:var(--sage);}
+.quiz-left p{font-size:.9rem;line-height:1.7;opacity:.5;margin-bottom:2rem;}
+.quiz-right{padding:6rem 3rem;display:flex;flex-direction:column;justify-content:center;background:var(--linen);}
+
+/* quiz progress bar */
+.quiz-prog-wrap{margin-bottom:1.5rem;}
+.quiz-prog-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;opacity:.4;margin-bottom:.5rem;}
+.quiz-prog-bar{height:3px;background:var(--warm);border-radius:2px;overflow:hidden;}
+.quiz-prog-fill{height:100%;background:var(--ink);border-radius:2px;transition:width .4s ease;}
+
+.quiz-card{border:2px solid var(--ink);padding:2rem;background:var(--white);}
+.q-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;font-style:italic;margin-bottom:1.5rem;line-height:1.4;}
+.q-opts{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.5rem;}
+.q-opt{
+  border:1.5px solid var(--warm);padding:.75rem 1rem;
+  font-family:'DM Sans',sans-serif;font-size:.85rem;
+  cursor:pointer;background:var(--white);text-align:left;color:var(--ink);
+  transition:all .18s;
+  display:flex;align-items:flex-start;gap:.8rem;
+}
+.q-opt:hover,.q-opt.sel{border-color:var(--ink);background:var(--ink);color:var(--cream);}
+.q-opt-letter{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.1em;opacity:.45;padding-top:.12rem;flex-shrink:0;}
+.q-opt.sel .q-opt-letter{opacity:.6;}
+.q-foot{display:flex;justify-content:space-between;align-items:center;}
+.q-note{font-size:.72rem;opacity:.35;}
+
+/* result card */
+.quiz-result{display:none;border:2px solid var(--green);padding:2rem;background:var(--white);}
+.quiz-result.show{display:block;}
+.qr-label{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green-mid);margin-bottom:.5rem;}
+.qr-trend{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:900;font-style:italic;margin-bottom:.5rem;}
+.qr-desc{font-size:.85rem;line-height:1.6;opacity:.65;margin-bottom:1.2rem;}
+
+/* ══════════════ CONTACT ══════════════ */
+.contact-sec{background:var(--cream);padding:6rem 3rem;}
+.contact-inner{display:grid;grid-template-columns:1fr 1.2fr;gap:6rem;align-items:start;}
+.contact-left h2{margin-top:.8rem;margin-bottom:1.2rem;}
+.contact-left p{font-size:.9rem;line-height:1.7;font-weight:300;color:#4A4033;margin-bottom:2rem;}
+.contact-items{display:flex;flex-direction:column;gap:1.4rem;margin-bottom:2rem;}
+.ci{border-left:2px solid var(--ink);padding-left:1rem;}
+.ci-l{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;opacity:.38;margin-bottom:.18rem;}
+.ci-v{font-family:'Playfair Display',serif;font-size:.95rem;font-style:italic;}
+
+/* Neighborhood badge */
+.nbadge{
+  display:inline-flex;align-items:center;gap:.6rem;
+  border:1.5px solid var(--green-mid);
+  background:var(--green);
+  padding:.5rem 1rem;
+}
+.nbadge span{font-family:'DM Mono',monospace;font-size:.56rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage);}
+.nbadge::before{content:'📍';font-size:.75rem;}
+
+form{display:flex;flex-direction:column;gap:1.4rem;}
+.fg{display:flex;flex-direction:column;gap:.4rem;}
+.fg label{font-family:'DM Mono',monospace;font-size:.54rem;letter-spacing:.15em;text-transform:uppercase;opacity:.4;}
+.fg input,.fg select,.fg textarea{
+  background:transparent;border:none;border-bottom:2px solid var(--warm);
+  padding:.6rem 0;font-family:'Playfair Display',serif;font-size:.95rem;
+  font-style:italic;color:var(--ink);outline:none;transition:border-color .2s;width:100%;
+}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--ink);}
+.fg textarea{resize:none;min-height:4.5rem;}
+.fg select option{font-style:normal;background:var(--linen);}
+.fg-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.btn-submit{
+  background:var(--ink);color:var(--cream);border:none;
+  font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;
+  padding:1rem 2.5rem;cursor:pointer;align-self:flex-start;
+  transition:background .2s;
+}
+.btn-submit:hover{background:var(--rust);}
+
+/* ══════════════ FOOTER ══════════════ */
+footer{
+  background:var(--ink);color:var(--cream);
+  padding:2rem 3rem;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
+  border-top:2px solid var(--green-mid);
+}
+.footer-l .fl-brand{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;}
+.footer-l .fl-sub{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.13em;text-transform:uppercase;opacity:.3;margin-top:.2rem;}
+.footer-r{text-align:right;}
+.footer-r p{font-family:'DM Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;opacity:.28;}
+.footer-loc{font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;opacity:.45;color:var(--sage);margin-bottom:.2rem;}
+
+/* ══════════════ SCROLL FADE ══════════════ */
+.fi{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.23,1,.32,1);}
+.fi.v{opacity:1;transform:none;}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ══════════════ RESPONSIVE ══════════════ */
+@media(max-width:960px){
+  .why-sec,.quiz-sec,.contact-inner{grid-template-columns:1fr;}
+  .analog-grid{grid-template-columns:1fr 1fr;}
+  .mini-grid{grid-template-columns:repeat(3,1fr);}
+  .step-rail{grid-template-columns:1fr;gap:1px;}
+  .step-arrow{display:none;}
+  .matrix-header{flex-direction:column;align-items:flex-start;}
+  nav{padding:.8rem 1.5rem;}
+  .nav-links{display:none;}
+  .fg-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo-wrap">
+    <span class="nav-logo">Juniper Valley Imperfect Design</span>
+    <span class="nav-subhead">Custom digital craft for local leaders</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Hand-Coded</a></li>
+    <li><a href="#trends">Trends</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Work With Us</a>
+</nav>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero grain">
+  <div class="hero-year" aria-hidden="true">1996</div>
+  <div class="hero-inner">
+    <div class="hero-badge fi v"><span>★ Middle Village, Queens · NYC · Since 1996</span></div>
+    <h1 class="fi v d1">
+      Building for the web<br>
+      since <em>the very beginning.</em>
+    </h1>
+    <p class="hero-sub fi v d2">
+      I've seen every trend come and go for 30 years.<br>
+      <strong>I know exactly what works to get a local business found.</strong><br>
+      Pick a trend. We build your logo, site, and social — done.
+    </p>
+    <div class="hero-actions fi v d3">
+      <a href="#contact" class="btn-big">Start Your Project →</a>
+      <a href="#quiz" class="btn-outline">Find My Aesthetic</a>
+    </div>
+    <div class="hero-stamps fi v d4">
+      <div class="stamp"><div class="stamp-num">1996</div><div class="stamp-label">Building since</div></div>
+      <div class="stamp"><div class="stamp-num">30</div><div class="stamp-label">Years experience</div></div>
+      <div class="stamp"><div class="stamp-num">3</div><div class="stamp-label">Core services</div></div>
+      <div class="stamp"><div class="stamp-num">10</div><div class="stamp-label">Design aesthetics</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ti">Hand-Coded Websites</span><span class="ti td">✦</span>
+    <span class="ti">Brand Identity & Logos</span><span class="ti td">✦</span>
+    <span class="ti">Social Media Systems</span><span class="ti td">✦</span>
+    <span class="ti">10 Design Aesthetics</span><span class="ti td">✦</span>
+    <span class="ti">Zero to Launch Bundle</span><span class="ti td">✦</span>
+    <span class="ti">Middle Village, Queens · NYC</span><span class="ti td">✦</span>
+    <span class="ti">30 Years of Digital Craft</span><span class="ti td">✦</span>
+    <span class="ti">Hand-Coded Websites</span><span class="ti td">✦</span>
+    <span class="ti">Brand Identity & Logos</span><span class="ti td">✦</span>
+    <span class="ti">Social Media Systems</span><span class="ti td">✦</span>
+    <span class="ti">10 Design Aesthetics</span><span class="ti td">✦</span>
+    <span class="ti">Zero to Launch Bundle</span><span class="ti td">✦</span>
+    <span class="ti">Middle Village, Queens · NYC</span><span class="ti td">✦</span>
+    <span class="ti">30 Years of Digital Craft</span><span class="ti td">✦</span>
+  </div>
+</div>
+
+<!-- ════════════════════ SERVICE MATRIX — COMPARISON TABLE ════════════════════ -->
+<section class="sec matrix-sec" id="services">
+  <div class="matrix-header">
+    <div>
+      <div class="sec-label fi">The Service Matrix</div>
+      <h2 class="fi d1">Here's exactly<br><em>what we do.</em></h2>
+    </div>
+    <p class="matrix-desc fi d2">Three services. One team. We solve the three problems every small business faces online. No jargon, no mystery.</p>
+  </div>
+
+  <table class="compare-table fi d1">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="col-bad">The DIY Struggle</th>
+        <th class="col-good">The Juniper Partner Way</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Speed</td>
+        <td class="diy">Bloated page builders load slowly, hurt your Google ranking, and lose customers in 3 seconds.</td>
+        <td class="jv">Hand-coded sites are lean, fast, and built to score high on Google Core Web Vitals — out of the box.</td>
+      </tr>
+      <tr>
+        <td>Uniqueness</td>
+        <td class="diy">Everyone on your block using the same Wix template looks identical. Customers notice.</td>
+        <td class="jv">Every pixel is built for your business. No shared templates. No accidental twins on the internet.</td>
+      </tr>
+      <tr>
+        <td>Your Brand</td>
+        <td class="diy">Generic logos from stock sites or AI generators. No real identity. Easy to forget.</td>
+        <td class="jv">A real logo and visual identity system tied to one of 10 curated design aesthetics — yours to own forever.</td>
+      </tr>
+      <tr>
+        <td>Social Media</td>
+        <td class="diy">Inconsistent posts, wrong dimensions, stressful. The algorithm punishes inactivity.</td>
+        <td class="jv">Professional templates + a content strategy so your feed looks like a real brand, not an afterthought.</td>
+      </tr>
+      <tr>
+        <td>Support</td>
+        <td class="diy">A chatbot, a forum, and a 3-day ticket queue. You're on your own.</td>
+        <td class="jv">You call or email me directly. I'm your neighbor. I respond within 24 hours, every time.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Bundle bar -->
+  <div style="background:var(--ink);color:var(--cream);padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem;border:2px solid var(--ink);margin-top:2px;" class="fi d2">
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;font-style:italic;margin-bottom:.3rem;">Zero to Launch Bundle</div>
+      <div style="font-size:.88rem;opacity:.5;font-weight:300;">All three services. One price. One team. Limited to 5 founding clients.</div>
+    </div>
+    <div style="display:flex;gap:.7rem;flex-wrap:wrap;">
+      <span style="border:1px solid var(--green-mid);font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);padding:.28rem .65rem;">✦ Website</span>
+      <span style="border:1px solid var(--green-mid);font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);padding:.28rem .65rem;">✦ Brand Identity</span>
+      <span style="border:1px solid var(--green-mid);font-family:'DM Mono',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--sage);padding:.28rem .65rem;">✦ Social Media</span>
+    </div>
+    <a href="#contact" class="btn-big" style="flex-shrink:0;">Claim a Spot →</a>
+  </div>
+</section>
+
+<!-- ════════════════════ WHY HAND-CODED ════════════════════ -->
+<section class="why-sec" id="why">
+  <div class="why-left">
+    <div class="sec-label fi">Why Hand-Coded?</div>
+    <h2 class="fi d1">The Digital Tailor<br><em>analogy.</em></h2>
+    <p class="fi d2">A DIY website builder is like a <strong>"one-size-fits-all" suit off the rack</strong> — it roughly fits everyone, which means it fits no one perfectly.</p>
+    <p class="fi d2">A hand-coded site is <strong>custom-tailored.</strong> Every line of code is written for your business goals, your customers, and your market — not for the builder's template catalog.</p>
+    <p class="fi d3">And just like a well-made suit, <strong>it lasts longer, performs better, and looks sharper</strong> than anything off-the-shelf.</p>
+  </div>
+  <div class="tailor-cards fi d2">
+    <div class="tc-card">
+      <div class="tc-icon">⚡</div>
+      <div>
+        <div class="tc-title">Built for Speed</div>
+        <div class="tc-body">No bloated plugins, no drag-and-drop overhead. Pure, clean code that loads in under a second and ranks higher on Google.</div>
+      </div>
+    </div>
+    <div class="tc-card">
+      <div class="tc-icon">🔒</div>
+      <div>
+        <div class="tc-title">More Secure</div>
+        <div class="tc-body">Page builders are hacker targets because millions use the same code. Hand-coded sites have no shared vulnerabilities to exploit.</div>
+      </div>
+    </div>
+    <div class="tc-card">
+      <div class="tc-icon">🎯</div>
+      <div>
+        <div class="tc-title">Built for Your Goals</div>
+        <div class="tc-body">Want people to call you? Book online? Walk in? Every button, every page, every layout decision is made with that specific outcome in mind.</div>
+      </div>
+    </div>
+    <div class="tc-card">
+      <div class="tc-icon">📞</div>
+      <div>
+        <div class="tc-title">You Own Everything</div>
+        <div class="tc-body">No subscriptions. No platform lock-in. Your site, your code, your domain — delivered to you free and clear. Cancel Wix tomorrow.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ TRUST / 1996 ════════════════════ -->
+<section class="trust-sec grain" id="about">
+  <div class="trust-year-bg" aria-hidden="true">1996</div>
+  <div class="trust-inner">
+    <div class="sec-label fi" style="color:var(--sage);"><span style="background:var(--sage);display:inline-block;width:2rem;height:2px;"></span>Trust the Expert</div>
+    <h2 class="fi d1"><em>30 years.</em> Every trend.<br>One goal unchanged.</h2>
+    <p class="trust-body fi d2">
+      I started building for the web from the very beginning — before social media, before smartphones, before anyone called it "digital marketing."
+      <br><br>
+      I've watched trends rise and vanish. I know which ones are worth your money and which are just noise. <strong>My goal has always been the same: get your local business found by the right people, at the right moment, with the right impression.</strong>
+      <br><br>
+      I'm not a faceless agency. I'm your neighbor in Queens — and I pick up the phone.
+    </p>
+    <div class="seal-row fi d3">
+      <div class="seal"><span>★ ★ ★</span><span>NYC<br>Born</span><span>★ ★ ★</span></div>
+      <div class="seal"><span>· · ·</span><span>Globally<br>Trusted</span><span>· · ·</span></div>
+      <div class="seal"><span>Est.</span><span>Since<br>1996</span><span>★</span></div>
+    </div>
+    <div class="trust-contact fi d4">
+      <div>
+        <div class="trust-tag">Expert Help for Local Leaders</div>
+        <div class="trust-email">hello@juniperimperfect.design</div>
+      </div>
+      <a href="#contact" class="btn-big" style="background:var(--green-mid);">Let's Talk →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ TRENDS ════════════════════ -->
+<section class="sec trends-sec" id="trends">
+  <div class="trends-header">
+    <div>
+      <div class="sec-label fi">The Analog Revival</div>
+      <h2 class="fi d1">Tactile warmth<br><em>in a digital space.</em></h2>
+    </div>
+    <p class="trends-note fi d2">10 curated aesthetics from Canva's 2026 collection. Find the one that matches your neighborhood identity. We build everything around it.</p>
+  </div>
+
+  <div class="analog-grid fi">
+    <!-- Granny Wave — warm paper grain + vintage florals -->
+    <div class="acard">
+      <div class="acard-vis av-gw grain-gw">
+        <div class="av-gw-flowers" aria-hidden="true">✿ ❋ ✾ ❀ ✿ ❋ ✾ ❀ ✿ ❋ ✾ ❀ ✿ ❋ ✾</div>
+      </div>
+      <div class="acard-body">
+        <div class="acard-num">01</div>
+        <div class="acard-name">Granny Wave</div>
+        <div class="acard-desc">Nostalgic, warm paper grain and vintage floral ink — for businesses that feel like a trusted family institution.</div>
+        <a href="#contact" class="acard-choose" data-trend="Granny Wave">Choose This</a>
+      </div>
+    </div>
+
+    <!-- Zinegeist — torn paper / collage -->
+    <div class="acard">
+      <div class="acard-vis av-zi"><div class="av-zi-tear"></div></div>
+      <div class="acard-body">
+        <div class="acard-num">02</div>
+        <div class="acard-name">Zinegeist</div>
+        <div class="acard-desc">DIY torn-paper and collage aesthetics — for disruptive, creative local brands that refuse to be ignored.</div>
+        <a href="#contact" class="acard-choose" data-trend="Zinegeist">Choose This</a>
+      </div>
+    </div>
+
+    <!-- Texture Check — woven linen -->
+    <div class="acard">
+      <div class="acard-vis av-tc grain-tc">
+        <div class="av-tc-stamp">Texture<br>Check</div>
+      </div>
+      <div class="acard-body">
+        <div class="acard-num">03</div>
+        <div class="acard-name">Texture Check</div>
+        <div class="acard-desc">Woven linen and pressed grain — bringing physical, tactile dimension to flat screens. Made to be felt.</div>
+        <a href="#contact" class="acard-choose" data-trend="Texture Check">Choose This</a>
+      </div>
+    </div>
+
+    <!-- Notes App Chic — lined paper -->
+    <div class="acard">
+      <div class="acard-vis av-na">
+        <div class="av-na-text">✦ no filter<br>→ raw &amp; real<br>* unpolished<br>— authentic<br>✦ honest craft</div>
+      </div>
+      <div class="acard-body">
+        <div class="acard-num">04</div>
+        <div class="acard-name">Notes App Chic</div>
+        <div class="acard-desc">Lined paper and handwritten energy — ultra-raw, unpolished communication that cuts through corporate noise.</div>
+        <a href="#contact" class="acard-choose" data-trend="Notes App Chic">Choose This</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mini 6 -->
+  <div class="mini-grid fi d2">
+    <div class="mcard"><div class="mcard-vis mv-rw"></div><div class="mcard-num">05</div><div class="mcard-name">Reality Warp</div></div>
+    <div class="mcard"><div class="mcard-vis mv-pp"></div><div class="mcard-num">06</div><div class="mcard-name">Prompt Playground</div></div>
+    <div class="mcard"><div class="mcard-vis mv-ex"></div><div class="mcard-num">07</div><div class="mcard-name">Explorecore</div></div>
+    <div class="mcard"><div class="mcard-vis mv-oe"></div><div class="mcard-num">08</div><div class="mcard-name">Opt-Out Era</div></div>
+    <div class="mcard"><div class="mcard-vis mv-dc"></div><div class="mcard-num">09</div><div class="mcard-name">Drama Club</div></div>
+    <div class="mcard"><div class="mcard-vis mv-bp"><span class="bp-s"></span><span class="bp-s"></span><span class="bp-s"></span><span class="bp-s"></span></div><div class="mcard-num">10</div><div class="mcard-name">Block Party</div></div>
+  </div>
+  <div style="margin-top:1.5rem;text-align:center;" class="fi d3">
+    <a href="#quiz" class="btn-big">Not sure which fits? Take the free quiz →</a>
+  </div>
+</section>
+
+<!-- ════════════════════ PROCESS ════════════════════ -->
+<section class="process-sec" id="process">
+  <div class="process-header">
+    <div>
+      <div class="sec-label fi" style="color:rgba(122,175,142,.55);"><span style="background:rgba(122,175,142,.4);display:inline-block;width:2rem;height:2px;"></span>How We Work</div>
+      <h2 class="fi d1" style="color:var(--cream)">A neighborhood partnership<br><em style="color:var(--sage)">to get your ideas to life.</em></h2>
+    </div>
+    <p class="process-sub fi d1">From idea to market in three clear steps — no agency jargon, no surprise invoices.</p>
+  </div>
+  <div class="step-rail fi d2">
+    <div class="step-box">
+      <div class="step-num">01</div>
+      <div class="step-title">Choose a Trend</div>
+      <div class="step-desc">Browse the 10 design aesthetics or take the free quiz. Find the one that feels like your business identity.</div>
+      <span class="step-tag">↑ Start Here</span>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step-box">
+      <div class="step-num">02</div>
+      <div class="step-title">Let Us Know</div>
+      <div class="step-desc">We consult directly — no middle layer. We map your trend to a conversion-focused plan built around your specific goals.</div>
+      <span class="step-tag">↑ We Consult</span>
+    </div>
+    <div class="step-arrow">→</div>
+    <div class="step-box">
+      <div class="step-num">03</div>
+      <div class="step-title">Go Live</div>
+      <div class="step-desc">Your fast, hand-coded site goes live alongside your brand assets and social templates — owned outright, no subscriptions.</div>
+      <span class="step-tag">↑ The Market</span>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ QUIZ ════════════════════ -->
+<section class="quiz-sec" id="quiz">
+  <div class="quiz-left">
+    <div class="sec-label fi">Free Brand Quiz</div>
+    <h2 class="fi d1">Find Your<br><em>Perfect</em><br>Aesthetic.</h2>
+    <p class="fi d2">4 questions. 2 minutes. We reveal your design personality and send a tailored mood board to your inbox — free, always.</p>
+    <div id="quiz-result-preview" style="display:none;margin-top:1.5rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage);margin-bottom:.4rem;">Your result</div>
+      <div id="qrp-trend" style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;font-style:italic;color:var(--cream);"></div>
+    </div>
+  </div>
+  <div class="quiz-right">
+    <!-- Active question -->
+    <div id="quiz-active">
+      <div class="quiz-prog-wrap">
+        <div class="quiz-prog-label">Question <span id="q-current">1</span> of 4</div>
+        <div class="quiz-prog-bar"><div class="quiz-prog-fill" id="q-bar" style="width:25%;"></div></div>
+      </div>
+      <div class="quiz-card">
+        <div class="q-text" id="q-text">When a customer finds you online, what is the #1 thing they should do within 30 seconds?</div>
+        <div class="q-opts" id="q-opts"></div>
+        <div class="q-foot">
+          <span class="q-note" id="q-foot-note">Choose one to continue</span>
+          <button class="nav-cta" id="q-next" onclick="nextQ()" style="display:none;">Next →</button>
+        </div>
+      </div>
+    </div>
+    <!-- Result -->
+    <div class="quiz-result" id="quiz-result">
+      <div class="qr-label">Your Aesthetic Match</div>
+      <div class="qr-trend" id="qr-name"></div>
+      <div class="qr-desc" id="qr-desc"></div>
+      <a href="#contact" class="btn-big" onclick="scrollToContact()">Build This Aesthetic For Me →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ CONTACT ════════════════════ -->
+<section class="sec contact-sec" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <div class="sec-label fi">Start Your Project</div>
+      <h2 class="fi d1">Let's build<br><em>something real.</em></h2>
+      <p class="fi d2">Fill out the form. I'll get back to you within 24 hours. No sales calls. No agency run-around. Just a straight conversation about what you need.</p>
+      <div class="contact-items fi d3">
+        <div class="ci"><div class="ci-l">Email</div><div class="ci-v">hello@juniperimperfect.design</div></div>
+        <div class="ci"><div class="ci-l">Neighborhood</div><div class="ci-v">Middle Village, Queens, NYC</div></div>
+        <div class="ci"><div class="ci-l">Response time</div><div class="ci-v">Within 24 hours, always.</div></div>
+      </div>
+      <div class="nbadge fi d4"><span>Neighborhood Partner · Middle Village, Queens</span></div>
+    </div>
+
+    <form class="fi d2" onsubmit="handleSubmit(event)">
+      <!-- Hidden fields populated by quiz -->
+      <input type="hidden" id="f-quiz-trend" name="quiz_trend" value="">
+      <input type="hidden" id="f-quiz-maintenance" name="quiz_maintenance" value="">
+
+      <div class="fg-row">
+        <div class="fg"><label for="f-name">Your Name</label><input id="f-name" name="name" type="text" placeholder="Jane Doe" required></div>
+        <div class="fg"><label for="f-biz">Business Name</label><input id="f-biz" name="business" type="text" placeholder="Your Business" required></div>
+      </div>
+      <div class="fg"><label for="f-email">Email Address</label><input id="f-email" name="email" type="email" placeholder="jane@yourbusiness.com" required></div>
+      <div class="fg">
+        <label for="f-trend">Your Design Trend <span style="opacity:.4;font-size:.9em;">(quiz fills this automatically)</span></label>
+        <select id="f-trend" name="trend">
+          <option value="">— Choose your aesthetic —</option>
+          <option>Granny Wave</option><option>Zinegeist</option><option>Texture Check</option>
+          <option>Notes App Chic</option><option>Reality Warp</option><option>Prompt Playground</option>
+          <option>Explorecore</option><option>Opt-Out Era</option><option>Drama Club</option>
+          <option>Block Party</option><option>Not sure — take the quiz!</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label for="f-service">Services Needed</label>
+        <select id="f-service" name="service">
+          <option value="">— What do you need? —</option>
+          <option>Website (Hand-Coded)</option><option>Graphic Design / Brand Identity</option>
+          <option>Social Media Templates + Strategy</option>
+          <option>Zero to Launch Bundle (all three)</option><option>Not sure yet</option>
+        </select>
+      </div>
+      <div class="fg">
+        <label for="f-situation">Which sounds most like you?</label>
+        <select id="f-situation" name="situation">
+          <option value="">— Choose your situation —</option>
+          <option>I'm starting from scratch — I need the works</option>
+          <option>I have a logo/photos but need a glow-up</option>
+          <option>My current site is embarrassing — rescue me</option>
+          <option>I have ideas but no time to execute</option>
+        </select>
+      </div>
+      <div class="fg"><label for="f-msg">Tell me about your business</label><textarea id="f-msg" name="message" placeholder="What do you do, and what are you hoping to build?"></textarea></div>
+      <button type="submit" class="btn-submit" id="f-submit">Send It →</button>
+      <p id="f-confirm" style="display:none;font-family:'Playfair Display',serif;font-style:italic;color:var(--green-mid);margin-top:.5rem;">✓ Message sent! I'll be in touch within 24 hours.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-l">
+    <div class="fl-brand">Juniper Valley Imperfect Design</div>
+    <div class="fl-sub">Custom digital craft for local leaders · Since 1996</div>
+  </div>
+  <div class="footer-r">
+    <div class="footer-loc">📍 Middle Village, Queens, New York City</div>
+    <p>© 2025 JVID · All rights reserved · hello@juniperimperfect.design</p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════ -->
+<script>
+/* ── Scroll fade ── */
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');}),{threshold:.1});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+
+/* ── "Choose This" links pre-fill contact form ── */
+document.querySelectorAll('.acard-choose').forEach(link=>{
+  link.addEventListener('click',e=>{
+    e.preventDefault();
+    const trend=link.dataset.trend;
+    const sel=document.getElementById('f-trend');
+    if(sel){for(let o of sel.options){if(o.value===trend){o.selected=true;break;}}}
+    document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+  });
+});
+
+/* ── QUIZ ENGINE ── */
+const questions=[
+  {
+    text:"When a customer finds you online, what is the #1 thing they should do within 30 seconds?",
+    opts:[
+      {label:"A",text:"Call or book me immediately",trends:{Drama:2,Block:1,Notes:1}},
+      {label:"B",text:"Browse my work to see if we're a good fit",trends:{Texture:2,Opt:2,Explore:1}},
+      {label:"C",text:"Buy a specific product right now",trends:{Block:2,Granny:1,Zine:1}},
+      {label:"D",text:"Trust that I'm a real, professional local business",trends:{Granny:2,Texture:1,Notes:1}}
+    ]
+  },
+  {
+    text:"Which sounds most like your current situation?",
+    opts:[
+      {label:"A",text:"I have a logo and photos — they just need a glow-up",trends:{Texture:2,Opt:2}},
+      {label:"B",text:"I'm starting from scratch — I need the works",trends:{Granny:1,Block:2,Zine:1}},
+      {label:"C",text:"My business is great in person but my digital presence is embarrassing",trends:{Notes:3,Granny:1}},
+      {label:"D",text:"I have ideas but no time to execute",trends:{Reality:2,Prompt:2,Explore:1}}
+    ]
+  },
+  {
+    text:"How involved do you want to be after your site launches?",
+    opts:[
+      {label:"A",text:"Set it and forget it — handle the tech for me",trends:{Granny:2,Opt:1,Texture:1}},
+      {label:"B",text:"I want to swap photos or posts occasionally",trends:{Notes:2,Explore:1,Block:1}},
+      {label:"C",text:"I want full control to update everything myself",trends:{Zine:2,Prompt:2,Reality:1}},
+      {label:"D",text:"I honestly don't know yet",trends:{Texture:1,Granny:1,Block:1}}
+    ]
+  },
+  {
+    text:"If your business was a physical shop in NYC, what would the interior feel like?",
+    opts:[
+      {label:"A",text:"A cozy bookstore with mismatched chairs and warm lamps",trends:{Granny:3}},
+      {label:"B",text:"A clean gallery with white walls and deliberate silence",trends:{Opt:2,Texture:2}},
+      {label:"C",text:"A bustling studio with neon, collage, and energy",trends:{Zine:2,Block:2,Reality:1}},
+      {label:"D",text:"An honest workshop with tools on the wall and no pretense",trends:{Notes:3,Explore:1}}
+    ]
+  }
+];
+
+const trendMeta={
+  Granny:{name:"Granny Wave",desc:"Warm, nostalgic, and trustworthy. Your brand will feel like the neighborhood institution everyone recommends to their friends."},
+  Zine:{name:"Zinegeist",desc:"Bold, disruptive, and impossible to ignore. Your brand will cut through the noise like a handmade flyer on a busy corner."},
+  Texture:{name:"Texture Check",desc:"Tactile, premium, and felt before it's read. Your brand will make people want to reach out and touch the screen."},
+  Notes:{name:"Notes App Chic",desc:"Raw, honest, and refreshingly real. Your brand will communicate like a direct message — no corporate filter."},
+  Reality:{name:"Reality Warp",desc:"Surreal, distinctive, and impossible to scroll past. Your brand will look like nothing else in your market."},
+  Prompt:{name:"Prompt Playground",desc:"Forward-thinking and tech-native. Your brand signals that you're ahead of the curve without trying."},
+  Explore:{name:"Explorecore",desc:"Adventure-ready and richly layered. Your brand invites customers on a journey that starts the moment they land on your site."},
+  Opt:{name:"Opt-Out Era",desc:"Quietly confident and deliberately minimal. Your brand communicates authority through what it chooses not to say."},
+  Drama:{name:"Drama Club",desc:"Theatrical, rich, and completely unapologetic. Your brand commands a room before you say a single word."},
+  Block:{name:"Block Party",desc:"Bold, primary, and impossible to miss. Your brand has the confidence to use color like a declaration."}
+};
+
+let current=0;
+const scores={Granny:0,Zine:0,Texture:0,Notes:0,Reality:0,Prompt:0,Explore:0,Opt:0,Drama:0,Block:0};
+
+function renderQ(){
+  const q=questions[current];
+  document.getElementById('q-current').innerHTML=current+1;
+  document.getElementById('q-text').innerHTML=q.text;
+  document.getElementById('q-bar').style.width=((current+1)/4*100)+'%';
+  document.getElementById('q-next').style.display='none';
+  document.getElementById('q-foot-note').textContent='Choose one to continue';
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  q.opts.forEach((o,i)=>{
+    const btn=document.createElement('button');
+    btn.className='q-opt';
+    btn.innerHTML=`<span class="q-opt-letter">${o.label}</span><span>${o.text}</span>`;
+    btn.onclick=()=>{
+      opts.querySelectorAll('.q-opt').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      // apply scores
+      Object.entries(o.trends).forEach(([k,v])=>{if(scores[k]!==undefined)scores[k]+=v;});
+      document.getElementById('q-next').style.display='inline-block';
+      document.getElementById('q-foot-note').textContent='';
+    };
+    opts.appendChild(btn);
+  });
+}
+
+function nextQ(){
+  current++;
+  if(current<4){renderQ();}
+  else{showResult();}
+}
+
+function showResult(){
+  const winner=Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
+  const meta=trendMeta[winner];
+  document.getElementById('quiz-active').style.display='none';
+  const res=document.getElementById('quiz-result');
+  document.getElementById('qr-name').textContent=meta.name;
+  document.getElementById('qr-desc').textContent=meta.desc;
+  res.classList.add('show');
+  // update left panel
+  document.getElementById('quiz-result-preview').style.display='block';
+  document.getElementById('qrp-trend').textContent=meta.name;
+  // pre-fill contact form
+  const fTrend=document.getElementById('f-trend');
+  if(fTrend){for(let o of fTrend.options){if(o.value===meta.name){o.selected=true;break;}}}
+  document.getElementById('f-quiz-trend').value=meta.name;
+}
+
+function scrollToContact(){
+  document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+}
+
+/* ── Form submission (mailto fallback) ── */
+function handleSubmit(e){
+  e.preventDefault();
+  const name=document.getElementById('f-name').value;
+  const biz=document.getElementById('f-biz').value;
+  const email=document.getElementById('f-email').value;
+  const trend=document.getElementById('f-trend').value;
+  const service=document.getElementById('f-service').value;
+  const situation=document.getElementById('f-situation').value;
+  const msg=document.getElementById('f-msg').value;
+  const quizTrend=document.getElementById('f-quiz-trend').value;
+
+  const body=`Name: ${name}%0ABusiness: ${biz}%0AEmail: ${email}%0A%0ATrend: ${trend}%0AQuiz Result: ${quizTrend||'N/A'}%0AService: ${service}%0ASituation: ${situation}%0A%0AMessage:%0A${msg}`;
+  window.location.href=`mailto:hello@juniperimperfect.design?subject=New Project Inquiry — ${encodeURIComponent(biz)}&body=${body}`;
+
+  document.getElementById('f-submit').textContent='Sent ✓';
+  document.getElementById('f-submit').style.background='var(--green-mid)';
+  document.getElementById('f-confirm').style.display='block';
+}
+
+/* ── Init quiz ── */
+renderQ();
+</script>
+</body>
+</html>
