@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juniper Valley | Custom Digital Craft for Local Leaders</title>
+    <meta name="description" content="Hand-coded websites, brand identity, and social media for small businesses. Based in Middle Village, Queens. Building for the web since 1996.">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0F2318;
+            --green: #1A3D28;
+            --green-mid: #2A5C3E;
+            --sage: #7BAF8E;
+            --cream: #F0EBE0;
+            --warm: #E8E0D0;
+            --rust: #B84A1E;
+            --purple: #3D3080;
+            --sand: #C8B898;
+            --white: #FAF8F4;
+            --linen: #EDE8DC;
+        }
+
+        .grain {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Ccircle cx='1.5' cy='1.5' r='.7' fill='%230F2318' opacity='.055'/%3E%3C/svg%3E");
+            background-size: 6px 6px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { 
+            background: var(--cream); 
+            color: var(--ink); 
+            font-family: 'DM Sans', sans-serif; 
+            overflow-x: hidden; 
+            -webkit-font-smoothing: antialiased;
+        }
+
+        nav {
+            position: sticky; top: 0; z-index: 1000;
+            background: var(--ink);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 1.2rem 4rem;
+            border-bottom: 3px solid var(--green-mid);
+            min-height: 90px;
+        }
+
+        .nav-logo-img {
+            height: 55px; 
+            width: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .nav-links { 
+            display: flex; 
+            gap: 3.5rem; 
+            list-style: none; 
+            align-items: center; 
+            margin: 0 2rem;
+        }
+        
+        .nav-links a {
+            font-family: 'DM Mono', monospace; 
+            font-size: 1.15rem; 
+            font-weight: 700; 
+            letter-spacing: 0.05em; 
+            text-transform: uppercase;
+            color: var(--sage); 
+            text-decoration: none; 
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .nav-links a:hover { color: var(--cream); border-bottom: 2px solid var(--rust); }
+
+        .nav-cta {
+            background: var(--rust); color: var(--white); border: none;
+            font-family: 'DM Mono', monospace; font-size: 1rem; font-weight: 700;
+            letter-spacing: 0.1em; text-transform: uppercase;
+            padding: 1rem 2rem; cursor: pointer; text-decoration: none;
+            border-radius: 4px; transition: background 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 4px 4px 0px var(--green-mid);
+        }
+        .nav-cta:hover { background: #943d18; transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--green-mid); }
+
+        .hero {
+            background: var(--ink); color: var(--cream);
+            padding: 10rem 4rem;
+            position: relative; overflow: hidden;
+            min-height: 85vh;
+            display: flex; align-items: center;
+        }
+
+        .hero-year {
+            position: absolute; right: 2%; bottom: -2%; 
+            font-family: 'Playfair Display', serif; font-weight: 900;
+            font-size: clamp(15rem, 40vw, 40rem); line-height: 0.7;
+            color: var(--green-mid); opacity: 0.15; 
+            pointer-events: none; user-select: none;
+            z-index: 1; transform: rotate(-5deg);
+        }
+
+        .hero-inner { position: relative; z-index: 2; max-width: 1100px; }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 7.5rem);
+            font-weight: 900; line-height: 0.9;
+            color: var(--cream); margin-bottom: 2.5rem;
+            letter-spacing: -0.03em;
+        }
+        h1 em { font-style: italic; font-weight: 400; color: var(--sage); }
+
+        .hero-sub {
+            font-size: 1.4rem; font-weight: 300; line-height: 1.6;
+            color: var(--sand); max-width: 700px; margin-bottom: 4rem;
+        }
+
+        .sec { padding: 8rem 4rem; position: relative; }
+        .sec-label {
+            font-family: 'DM Mono', monospace; font-size: 0.8rem;
+            letter-spacing: 0.2em; text-transform: uppercase; color: var(--rust);
+            margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;
+        }
+        .sec-label::before { content: ''; width: 3rem; height: 2px; background: var(--rust); }
+
+        h2 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 900; line-height: 1; margin-bottom: 3rem; }
+        h2 em { font-style: italic; color: var(--green-mid); }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+        .gallery-card {
+            background: var(--white);
+            border: 3px solid var(--ink);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .gallery-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 12px 12px 0px var(--sage);
+        }
+        
+        .trend-vis {
+            width: 100%;
+            aspect-ratio: 4/3;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--ink);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Texture Previews */
+        .av-gw { background-color: #EDE2C8; background-image: radial-gradient(#6B4C2A 1px, transparent 1px); background-size: 20px 20px; }
+        .av-gw::after { content: '✿'; font-size: 5rem; position: absolute; color: #7A4A1E; opacity: 0.2; top: 10px; right: 10px; }
+
+        .av-zi { background-color: #1A1A1A; overflow: hidden; }
+        .av-zi::before { content: ''; position: absolute; inset: 0; background: linear-gradient(45deg, #e8352a 25%, transparent 25%), linear-gradient(-45deg, #1a3fcc 25%, transparent 25%); opacity: 0.4; }
+        .av-zi-tear { position: absolute; bottom: 0; left: 0; right: 0; height: 30px; background: white; clip-path: polygon(0 100%, 5% 50%, 10% 80%, 15% 40%, 100% 100%); }
+
+        .av-tc { background-color: #C4A882; background-image: repeating-linear-gradient(0deg, rgba(80,50,20,.1) 0, rgba(80,50,20,.1) 1px, transparent 1px, transparent 10px), repeating-linear-gradient(90deg, rgba(80,50,20,.1) 0, rgba(80,50,20,.1) 1px, transparent 1px, transparent 10px); }
+        
+        .av-na { background-color: #FFFEF5; background-image: repeating-linear-gradient(transparent, transparent 24px, #BDD0E0 24px, #BDD0E0 25px); padding-left: 40px; border-left: 2px solid #C85050 !important; }
+
+        .gallery-tag { font-family: 'DM Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--rust); margin-bottom: 0.5rem; display: block; }
+        .gallery-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; }
+        .gallery-desc { font-size: 0.95rem; line-height: 1.6; opacity: 0.8; }
+
+        .bundle-banner {
+            background: var(--ink); color: var(--cream);
+            padding: 4rem; border: 4px solid var(--rust);
+            margin: 6rem 0; position: relative; overflow: hidden;
+            box-shadow: 15px 15px 0px var(--green-mid);
+        }
+        .bundle-tag {
+            background: var(--rust); color: white; display: inline-block;
+            padding: 0.5rem 1.5rem; font-family: 'DM Mono', monospace;
+            font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase;
+            margin-bottom: 2rem; border-radius: 2px;
+        }
+        .bundle-content { display: grid; grid-template-columns: 1.5fr 1fr; gap: 4rem; align-items: center; }
+        .bundle-price { font-family: 'Playfair Display', serif; font-size: 5rem; font-style: italic; color: var(--sage); }
+
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 3px solid var(--ink); }
+        .price-card { 
+            padding: 4rem 3rem; 
+            border-right: 3px solid var(--ink); 
+            background: var(--white); 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+        }
+        .price-card:last-child { border-right: none; }
+        .price-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; margin-bottom: 1rem; }
+        .price-val { font-family: 'Playfair Display', serif; font-size: 4rem; font-style: italic; margin-bottom: 2.5rem; }
+        .price-list { list-style: none; margin-bottom: 3.5rem; flex-grow: 1; }
+        .price-list li { margin-bottom: 1.2rem; font-size: 1rem; display: flex; gap: 1rem; opacity: 0.9; }
+        .price-list li::before { content: '✦'; color: var(--sage); }
+
+        .btn-big {
+            display: inline-block; background: var(--rust); color: white;
+            padding: 1.4rem 3rem; font-weight: 700; text-decoration: none;
+            border-radius: 4px; font-size: 1.1rem; text-align: center;
+            transition: all 0.2s; cursor: pointer; border: none;
+        }
+        .btn-big:hover { background: #943d18; transform: translateY(-3px); }
+
+        @media (max-width: 1024px) {
+            nav { padding: 1.5rem; flex-direction: column; height: auto; min-height: unset; gap: 1.5rem; }
+            .nav-links { gap: 1.5rem; margin: 0; flex-wrap: wrap; justify-content: center; }
+            .nav-links a { font-size: 1rem; }
+            .hero { padding: 6rem 1.5rem; text-align: center; }
+            .hero-year { font-size: 25rem; opacity: 0.1; }
+            .pricing-grid, .bundle-content, .gallery-grid { grid-template-columns: 1fr; }
+            .pricing-grid { border: none; gap: 2rem; }
+            .price-card { border: 3px solid var(--ink); border-right: 3px solid var(--ink); padding: 3rem 1.5rem; }
+            .sec { padding: 4rem 1.5rem; }
+            .bundle-banner { padding: 2rem; margin: 3rem 0; box-shadow: 8px 8px 0px var(--green-mid); }
+            .bundle-price { font-size: 3.5rem; }
+        }
+
+        .fi { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        .fi.v { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: 0.1s; }
+        .d2 { transition-delay: 0.2s; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#" class="nav-logo-wrap">
+            <img src="https://placehold.co/280x70/0F2318/7BAF8E?text=JUNIPER&font=playfair-display" alt="Juniper Valley Logo" class="nav-logo-img">
+        </a>
+        <ul class="nav-links">
+            <li><a href="#process">Process</a></li>
+            <li><a href="#gallery">Aesthetics</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#contact" class="nav-cta">Start Project</a>
+    </nav>
+
+    <section class="hero grain">
+        <div class="hero-year">1996</div>
+        <div class="hero-inner">
+            <h1 class="fi v d1">
+                We Build Brands<br>
+                for <em>Small Businesses</em><br>
+                That Mean Business.
+            </h1>
+            <p class="hero-sub fi v d2">
+                I’m an expert developer helping you skip the confusion with 30 years of code experience. 
+                Pick a trend. We build your logo, website, and social presence. 
+                <br><strong>Simple. Fast. Yours.</strong>
+            </p>
+            <div class="fi v d2" style="margin-top: 3rem;">
+                <a href="#contact" class="btn-big">Start Your Project →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec" id="gallery" style="background: var(--linen);">
+        <div class="sec-label fi">The Aesthetic Pairings</div>
+        <h2 class="fi">Curated Designs for<br><em>local leaders.</em></h2>
+        
+        <div class="gallery-grid">
+            <!-- 01: Granny Wave x Bakery -->
+            <div class="gallery-card fi d1">
+                <span class="gallery-tag">The Neighborhood Bakery</span>
+                <div class="trend-vis av-gw"></div>
+                <h3 class="gallery-title">Granny Wave</h3>
+                <p class="gallery-desc">Warm, nostalgic, and institutional. Perfect for community-pillar businesses like bakeries or cafes that value long-term trust.</p>
+            </div>
+
+            <!-- 02: Zinegeist x Boutique Salon -->
+            <div class="gallery-card fi d2">
+                <span class="gallery-tag">The Boutique Salon</span>
+                <div class="trend-vis av-zi"><div class="av-zi-tear"></div></div>
+                <h3 class="gallery-title">Zinegeist</h3>
+                <p class="gallery-desc">Bold and disruptive. Ideal for hair salons, creative studios, or brands that need to cut through the digital noise with style.</p>
+            </div>
+
+            <!-- 03: Texture Check x Artisan Shop -->
+            <div class="gallery-card fi d3">
+                <span class="gallery-tag">The Custom Artisan</span>
+                <div class="trend-vis av-tc"></div>
+                <h3 class="gallery-title">Texture Check</h3>
+                <p class="gallery-desc">Tactile and premium. For custom furniture makers, auto detailers, or high-end contractors where quality is felt before it's seen.</p>
+            </div>
+            
+            <!-- 04: Notes App x Local Consultant -->
+            <div class="gallery-card fi d4">
+                <span class="gallery-tag">The Expert Consultant</span>
+                <div class="trend-vis av-na"></div>
+                <h3 class="gallery-title">Notes App Chic</h3>
+                <p class="gallery-desc">Raw, direct, and unpolished. For personal trainers or local consultants who sell authentic results without the corporate fluff.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec" id="bundle" style="background: var(--white);">
+        <div class="bundle-banner fi">
+            <div class="bundle-tag">Exclusive Foundation Offer</div>
+            <div class="bundle-content">
+                <div>
+                    <h2 style="color: var(--cream); margin-bottom: 1.5rem;">The "Zero to Launch" Bundle</h2>
+                    <p style="font-size: 1.2rem; opacity: 0.8; margin-bottom: 2rem;">
+                        Stop juggling designers and developers. I handle everything from your **Logo (Identity)** to your **Storefront (Website)** to **Social Media Strategy**. 
+                    </p>
+                    <ul class="price-list" style="margin-bottom: 0;">
+                        <li style="color: var(--sage)">Custom Hand-Coded 5-Page Website</li>
+                        <li style="color: var(--sage)">Full Visual Identity System (Logo + Guide)</li>
+                        <li style="color: var(--sage)">Social Media Asset Kit & Content Strategy</li>
+                    </ul>
+                </div>
+                <div style="text-align: center;">
+                    <div class="bundle-price">$2,499</div>
+                    <div style="color: var(--rust); font-weight: 700; margin-top: 1rem; font-family: 'DM Mono', monospace;">ONLY 5 SPOTS REMAINING</div>
+                    <a href="#contact" class="btn-big" style="margin-top: 2rem; width: 100%;">Claim My Spot →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec" id="pricing" style="background: var(--linen);">
+        <div class="sec-label fi">Investment Levels</div>
+        <h2 class="fi d1">Choose your tier of<br><em>digital presence.</em></h2>
+        <div class="pricing-grid fi d2">
+            <div class="price-card">
+                <div class="price-title">Essential</div>
+                <div class="price-val">$499</div>
+                <ul class="price-list">
+                    <li>High-Conversion Landing Page</li>
+                    <li>Professional Brand Guide</li>
+                    <li>Mobile-Ready Design</li>
+                    <li>Found on Google SEO</li>
+                </ul>
+                <a href="#contact" class="btn-big">Get Started</a>
+            </div>
+            <div class="price-card">
+                <div class="price-title">Complete</div>
+                <div class="price-val">$1,299</div>
+                <ul class="price-list">
+                    <li>Full 5-Page Website</li>
+                    <li>Social Media Asset Kit</li>
+                    <li>Custom Strategy Session</li>
+                    <li>Integrated Contact Forms</li>
+                </ul>
+                <a href="#contact" class="btn-big">Get Started</a>
+            </div>
+            <div class="price-card">
+                <div class="price-title">E-Commerce</div>
+                <div class="price-val">$1,999</div>
+                <ul class="price-list">
+                    <li>Full Online Store</li>
+                    <li>Payment Integration</li>
+                    <li>Inventory Management</li>
+                    <li>Training Session</li>
+                </ul>
+                <a href="#contact" class="btn-big">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="sec" id="contact" style="background: var(--ink); color: var(--cream);">
+        <div class="sec-label" style="color: var(--sage);"><span style="background: var(--sage); width: 3rem; height: 2px;"></span>Get In Touch</div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 4rem;">
+            <div>
+                <h2 style="color: var(--cream);">Start something<br><em>real today.</em></h2>
+                <p style="opacity: 0.7; font-size: 1.2rem; margin-bottom: 4rem; line-height: 1.8;">I respond personally within 24 hours. No sales calls, just a straight conversation about your business.</p>
+                <div style="font-family: 'DM Mono', monospace; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.15em;">
+                    <p style="margin-bottom: 1.5rem; color: var(--sage);">Email: hello@juniperimperfect.design</p>
+                    <p>Location: Middle Village, Queens · NYC</p>
+                </div>
+            </div>
+            <form onsubmit="event.preventDefault();" style="display: flex; flex-direction: column; gap: 2rem;">
+                <input type="text" placeholder="Your Name" style="padding: 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--green-mid); color: white; outline: none; border-radius: 4px;">
+                <input type="email" placeholder="Email Address" style="padding: 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--green-mid); color: white; outline: none; border-radius: 4px;">
+                <textarea placeholder="Tell me about your project" rows="5" style="padding: 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid var(--green-mid); color: white; outline: none; border-radius: 4px;"></textarea>
+                <button class="btn-big">Send Inquiry →</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="padding: 6rem 4rem; background: #08150E; color: var(--sage); text-align: center; border-top: 1px solid var(--green-mid);">
+        <p style="font-family: 'Playfair Display', serif; font-size: 1.8rem; font-style: italic; color: var(--cream); margin-bottom: 1.5rem;">Expert Help for Local Leaders.</p>
+        <p style="font-family: 'DM Mono', monospace; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.4em; opacity: 0.5;">© 2025 Juniper Valley Imperfect Design · NYC Born · Since 1996</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('v');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
